@@ -14,18 +14,17 @@ import { usePathname } from 'next/navigation';
 export default function Nav(params) {
   const inactiveLink = 'flex items-center gap-2 p-1';
   const activeLink =
-    inactiveLink + ' bg-white text-blue-900 rounded-l-lg -mr-4';
+    inactiveLink + ' bg-white text-blue-900 rounded-l-full pl-3 -mr-4 -ml-3 font-bold';
 
   const pathname = usePathname();
 
-  console.log(pathname);
-
   return (
     <aside className='p-4'>
-      <Link href='/' className='flex gap-2 mb-4'>
+      <Link href='/' className='flex gap-2 mb-4 p-1'>
         <FontAwesomeIcon icon={faShop} className='h-5 w-5' />
         <span>EcommerceAdmin</span>
       </Link>
+
       <nav className='grid gap-2'>
         <Link
           href={'/'}
