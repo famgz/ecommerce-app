@@ -17,9 +17,9 @@ export default async function Home() {
   }
 
   return (
-    <div>
+    <div className='flex min-h-screen'>
       <Nav />
-      <div>logged in: {session?.user?.email}</div>
+      <div className='bg-white text-black flex-grow m-2 ml-0 rounded-lg p-4'>logged in: {session?.user?.email}</div>
     </div>
   );
 }
