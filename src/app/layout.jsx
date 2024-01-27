@@ -20,7 +20,7 @@ export default async function RootLayout({ children }) {
 
   if (!session) {
     return (
-      <div className='flex items-center'>
+      <div className='flex items-center bg-blue-900 min-h-screen'>
         <div className='text-center w-full'>
           <LoginWithGoogle />
         </div>
