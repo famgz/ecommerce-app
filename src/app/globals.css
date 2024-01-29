@@ -29,8 +29,16 @@ textarea {
   @apply bg-blue-900 text-white;
 }
 
+.btn {
+  @apply inline-flex items-center justify-center gap-1 py-1 px-4 rounded-full;
+}
+
 .btn-primary {
-  @apply bg-dark py-1 px-4 rounded-full;
+  @apply btn bg-dark;
+}
+
+.btn-white {
+  @apply btn bg-light border border-blue-900 font-bold;
 }
 
 table.basic {
@@ -42,9 +50,5 @@ table.basic {
 
   & td, th {
     @apply border border-blue-200 p-1;
-  }
-
-  & a {
-    @apply bg-dark inline-flex items-center gap-2 text-sm py-1 px-2 rounded-md;
   }
 }
