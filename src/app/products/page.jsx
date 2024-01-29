@@ -1,5 +1,6 @@
 'use client';
 
+import DeleteButton from '@/components/DeleteButton';
 import { faPenToSquare, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
@@ -11,7 +12,14 @@ export default function ProductsPage(params) {
 
   useEffect(() => {
     axios.get('/api/products').then((res) => setProducts(res.data));
-  }, []);
+  }, [products]);
+
+  function deleteProduct(_id) {
+    axios
+      .delete('/api/products?id=' + _id)
+      .then((res) => console.log('deleted:', res.data));
+    setProducts((prev) => prev.filter((p) => p._id !== _id));
+  }
 
   return (
     <div className='grid gap-4'>
@@ -34,14 +42,18 @@ export default function ProductsPage(params) {
               <tr key={p._id}>
                 <td>{p.title}</td>
                 <td>
-                  <Link href={'/products/edit/' + p._id}>
+                  <Link
+                    href={'/products/edit/' + p._id}
+                    className='btn-primary mr-2'
+                  >
                     <FontAwesomeIcon icon={faPenToSquare} className='size-3' />
                     <span>Edit</span>
                   </Link>
-                  <Link href={'/products/' + p._id}>
-                    <FontAwesomeIcon icon={faTrashCan} className='size-3' />
-                    <span>Delete</span>
-                  </Link>
+
+                  <DeleteButton
+                    label={'Delete'}
+                    onDelete={() => deleteProduct(p._id)}
+                  />
                 </td>
               </tr>
             ))}

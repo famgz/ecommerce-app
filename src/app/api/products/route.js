@@ -27,3 +27,12 @@ export async function PUT(req) {
   );
   return Response.json(productDoc);
 }
+
+export async function DELETE(req) {
+  await mongooseConnect();
+  const url = new URL(req.url);
+  const params = new URLSearchParams(url.search);
+  const id = params.get('id');
+  const data = await Product.findByIdAndDelete(id)
+  return Response.json(data);
+}
