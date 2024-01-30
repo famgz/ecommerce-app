@@ -6,8 +6,8 @@ h1 {
   @apply text-blue-900 mb-2 font-bold text-xl;
 }
 
-label {
-  & span {
+form > label {
+  & > span {
     @apply text-blue-900 text-xs;
   }
 }

@@ -8,7 +8,6 @@ export default function DeleteButton({ label, onDelete }) {
   return (
     <>
       {/* show button */}
-
       <button
         className='btn-primary p-2'
         type='button'

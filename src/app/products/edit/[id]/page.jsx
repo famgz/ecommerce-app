@@ -15,7 +15,6 @@ export default function EditProductPage() {
       .get('/api/products?id=' + id)
       .then((res) => res.data)
       .then((data) => {
-        console.log(data);
         setProduct(data);
       });
   }, [id]);
