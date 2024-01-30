@@ -25,10 +25,10 @@ export async function POST(req) {
 export async function PUT(req) {
   await mongooseConnect();
   const data = await req.json();
-  const { title, description, price, _id } = data;
+  const { _id, ...rest } = data;
   const productDoc = await Product.updateOne(
     { _id },
-    { title, description, price }
+    rest
   );
   return Response.json(productDoc);
 }

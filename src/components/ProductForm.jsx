@@ -1,11 +1,9 @@
 'use client';
 
-import {
-  faArrowUpFromBracket,
-  faCloudArrowUp,
-} from '@fortawesome/free-solid-svg-icons';
+import { faArrowUpFromBracket } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
@@ -18,7 +16,7 @@ export default function ProductForm({ product }) {
 
   async function saveProduct(ev) {
     ev.preventDefault();
-    const data = { title, description, price };
+    const data = { title, description, price, images };
 
     // update product
     if (product?._id) {
@@ -35,7 +33,6 @@ export default function ProductForm({ product }) {
     ev.preventDefault();
 
     const files = ev.target?.files;
-    console.log(files.length);
     if (!files?.length > 0) {
       return;
     }
@@ -45,12 +42,11 @@ export default function ProductForm({ product }) {
       data.append('file', file);
     }
 
-    const res = await fetch('/api/upload', {
-      method: 'POST',
-      body: data,
-    });
+    const res = await axios.post('/api/upload', data);
 
-    console.log('res', res.data);
+    const newLinks = res?.data || [];
+
+    setImages((prev) => [...prev, ...newLinks]);
   }
 
   return (
@@ -67,12 +63,21 @@ export default function ProductForm({ product }) {
           />
         </label>
 
-        <label>
+        <div className='label'>
           <span>Images</span>
-          <div className='mb-2'>
+          <div className='flex gap-2 mb-2 flex-wrap'>
+            {images?.length > 0 &&
+              images.map((link, index) => (
+                <img
+                  key={index}
+                  src={link}
+                  alt='product image'
+                  className='h-24 w-auto border rounded-lg'
+                />
+              ))}
             <label
               type='button'
-              className='flex flex-col items-center justify-center gap-2 w-24 h-24 cursor-pointer border text-xs text-gray-500 rounded-lg bg-gray-100'
+              className='flex flex-col items-center justify-center gap-2 size-24 cursor-pointer border text-xs text-gray-500 rounded-lg bg-gray-100'
             >
               <FontAwesomeIcon icon={faArrowUpFromBracket} className='size-6' />
               <span>Upload</span>
@@ -82,13 +87,13 @@ export default function ProductForm({ product }) {
                 name=''
                 id=''
                 onChange={uploadImages}
-                accept="image/*"
+                accept='image/*'
                 multiple
               />
             </label>
-            {images?.length > 0 ? 'images' : 'no images of this product'}
+            {images?.length > 0 ? '' : 'no images of this product yet'}
           </div>
-        </label>
+        </div>
 
         <label>
           <span>Description</span>

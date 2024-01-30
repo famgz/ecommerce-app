@@ -6,7 +6,7 @@ const bucketName = process.env.S3_BUCKET_NAME;
 function getUniqueFilename(file) {
   const randomId = uniqid();
   const ext = file.name.split('.').pop() || 'jpg';
-  const newFileName = randomId.concat('.', ext);
+  const newFileName = `${randomId}.${ext}`;
   return newFileName;
 }
 
