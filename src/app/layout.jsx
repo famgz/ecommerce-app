@@ -21,12 +21,14 @@ export default async function RootLayout({ children }) {
   // Not logged in
   if (!session) {
     return (
-      <html>
-        <div className='flex items-center bg-blue-900 min-h-screen'>
-          <div className='text-center w-full'>
-            <LoginWithGoogle />
+      <html lang='en'>
+        <body className={roboto.className}>
+          <div className='flex items-center bg-blue-900 min-h-screen'>
+            <div className='text-center w-full'>
+              <LoginWithGoogle />
+            </div>
           </div>
-        </div>
+        </body>
       </html>
     );
   }
