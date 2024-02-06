@@ -6,12 +6,14 @@ import axios from 'axios';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { BeatLoader } from 'react-spinners';
 
 export default function ProductForm({ product }) {
   const [title, setTitle] = useState(product?.title || '');
   const [description, setDescription] = useState(product?.description || '');
   const [price, setPrice] = useState(product?.price || '');
   const [images, setImages] = useState(product?.images || []);
+  const [isUploading, setIsUploading] = useState(false);
   const router = useRouter();
 
   async function saveProduct(ev) {
@@ -37,6 +39,8 @@ export default function ProductForm({ product }) {
       return;
     }
 
+    setIsUploading(true);
+
     const data = new FormData();
     for (const file of files) {
       data.append('file', file);
@@ -47,6 +51,8 @@ export default function ProductForm({ product }) {
     const newLinks = res?.data || [];
 
     setImages((prev) => [...prev, ...newLinks]);
+
+    setIsUploading(false);
   }
 
   return (
@@ -65,6 +71,7 @@ export default function ProductForm({ product }) {
 
         <div className='label'>
           <span>Images</span>
+
           <div className='flex gap-2 mb-2 flex-wrap'>
             {images?.length > 0 &&
               images.map((link, index) => (
@@ -75,6 +82,11 @@ export default function ProductForm({ product }) {
                   className='h-24 w-auto border rounded-lg'
                 />
               ))}
+            {isUploading && (
+              <div className='size-24 bg-gray-100 p-1 flex items-center justify-center border rounded-lg'>
+                <BeatLoader color='#1e3aba' speedMultiplier={0.5} />
+              </div>
+            )}
             <label
               type='button'
               className='flex flex-col items-center justify-center gap-2 size-24 cursor-pointer border text-xs text-gray-500 rounded-lg bg-gray-100'

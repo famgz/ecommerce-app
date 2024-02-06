@@ -8,7 +8,7 @@ h1 {
 
 form > label, form > .label {
   & > span {
-    @apply text-blue-900 text-xs;
+    @apply text-blue-900 text-xs font-bold;
   }
 }
 

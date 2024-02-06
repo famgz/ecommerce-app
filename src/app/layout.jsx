@@ -18,16 +18,20 @@ export const metadata = {
 export default async function RootLayout({ children }) {
   const session = await getServerSession(authOptions);
 
+  // Not logged in
   if (!session) {
     return (
-      <div className='flex items-center bg-blue-900 min-h-screen'>
-        <div className='text-center w-full'>
-          <LoginWithGoogle />
+      <html>
+        <div className='flex items-center bg-blue-900 min-h-screen'>
+          <div className='text-center w-full'>
+            <LoginWithGoogle />
+          </div>
         </div>
-      </div>
+      </html>
     );
   }
 
+  // Logged in
   return (
     <html lang='en'>
       <body className={roboto.className}>
