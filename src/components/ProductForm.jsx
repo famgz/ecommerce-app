@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { BeatLoader } from 'react-spinners';
+import { ReactSortable } from 'react-sortablejs';
 
 export default function ProductForm({ product }) {
   const [title, setTitle] = useState(product?.title || '');
@@ -47,17 +48,16 @@ export default function ProductForm({ product }) {
     }
 
     const res = await axios.post('/api/upload', data);
-
     const newLinks = res?.data || [];
 
     setImages((prev) => [...prev, ...newLinks]);
-
     setIsUploading(false);
   }
 
   return (
     <div>
       <form onSubmit={saveProduct} className='grid gap-1'>
+        {/* Name */}
         <label>
           <span>Product Name</span>
           <input
@@ -69,19 +69,26 @@ export default function ProductForm({ product }) {
           />
         </label>
 
+        {/* Images */}
         <div className='label'>
           <span>Images</span>
-
           <div className='flex gap-2 mb-2 flex-wrap'>
-            {images?.length > 0 &&
-              images.map((link, index) => (
-                <img
-                  key={index}
-                  src={link}
-                  alt='product image'
-                  className='h-24 w-auto border rounded-lg'
-                />
-              ))}
+            <ReactSortable
+              list={images}
+              setList={setImages}
+              className='flex gap-2 flex-wrap'
+            >
+              {images?.length > 0 &&
+                images.map((link, index) => (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    key={index}
+                    src={link}
+                    alt='product image'
+                    className='h-24 w-auto border rounded-lg'
+                  />
+                ))}
+            </ReactSortable>
             {isUploading && (
               <div className='size-24 bg-gray-100 p-1 flex items-center justify-center border rounded-lg'>
                 <BeatLoader color='#1e3aba' speedMultiplier={0.5} />
@@ -107,6 +114,7 @@ export default function ProductForm({ product }) {
           </div>
         </div>
 
+        {/* Description */}
         <label>
           <span>Description</span>
           <textarea
@@ -117,6 +125,7 @@ export default function ProductForm({ product }) {
           />
         </label>
 
+        {/* Price */}
         <label>
           <span>Price (in USD)</span>
           <input

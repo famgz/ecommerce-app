@@ -10,7 +10,6 @@ export default async function Home() {
   return (
     <div className='text-blue-900 flex justify-between'>
       <h2 className='font-bold'>Hello, {user?.name}</h2>
-      <LoginWithGoogle />
       <div className='flex bg-gray-300 text-black rounded-lg overflow-hidden'>
         <div className='relative h-full w-10'>
           <Image
