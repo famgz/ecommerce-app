@@ -1,7 +1,6 @@
 import { getServerSession } from 'next-auth';
-import { authOptions } from './api/auth/[...nextauth]/route';
 import Image from 'next/image';
-import LoginWithGoogle from '@/components/buttons/LoginWithGoogle';
+import { authOptions } from './api/auth/[...nextauth]/route';
 
 export default async function Home() {
   const session = await getServerSession(authOptions);
