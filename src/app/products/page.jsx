@@ -1,7 +1,7 @@
 'use client';
 
 import DeleteButton from '@/components/DeleteButton';
-import { faPenToSquare, faTrashCan } from '@fortawesome/free-solid-svg-icons';
+import { faPenToSquare, faPlus, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import Link from 'next/link';
@@ -24,41 +24,30 @@ export default function ProductsPage(params) {
   return (
     <div className='grid gap-4'>
       <Link
-        className='bg-dark py-2 px-4 rounded-full w-fit'
+        className='flex gap-2 items-center bg-dark py-2 px-4 rounded-full w-fit'
         href={'/products/new'}
       >
-        Add new product
+        <FontAwesomeIcon icon={faPlus}/>
+        Add product
       </Link>
-      <div>
-        <table className='basic'>
-          <thead>
-            <tr>
-              <th>Product name</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {products.map((p) => (
-              <tr key={p._id}>
-                <td>{p.title}</td>
-                <td>
-                  <Link
-                    href={'/products/edit/' + p._id}
-                    className='btn-primary mr-2'
-                  >
-                    <FontAwesomeIcon icon={faPenToSquare} className='size-3' />
-                    <span>Edit</span>
-                  </Link>
+      <div className='flex flex-col gap-2'>
+        <h1 className='font-bold text-md mt-2'>Products</h1>
+        {products.map((p) => (
+          <div key={p._id} className='flex'>
+            <span className='flex-1 border-b border-solid border-gray-200 mr-5'>
+              {p.title}
+            </span>
+            <Link href={'/products/edit/' + p._id} className='btn-primary mr-2'>
+              <FontAwesomeIcon icon={faPenToSquare} className='size-3' />
+              <span>Edit</span>
+            </Link>
 
-                  <DeleteButton
-                    label={'Delete'}
-                    onDelete={() => deleteProduct(p._id)}
-                  />
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+            <DeleteButton
+              label={'Delete'}
+              onDelete={() => deleteProduct(p._id)}
+            />
+          </div>
+        ))}
       </div>
     </div>
   );

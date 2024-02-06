@@ -38,7 +38,7 @@ textarea {
 }
 
 .btn-white {
-  @apply btn bg-light border border-blue-900 font-bold;
+  @apply btn bg-light border border-blue-300 font-bold;
 }
 
 table.basic {
