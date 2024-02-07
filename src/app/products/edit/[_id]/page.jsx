@@ -6,22 +6,21 @@ import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 export default function EditProductPage() {
-  const { id } = useParams();
+  const { _id } = useParams();
   const [product, setProduct] = useState(null);
 
   useEffect(() => {
-    if (!id) return;
+    if (!_id) {
+      return;
+    }
     axios
-      .get('/api/products?id=' + id)
-      .then((res) => res.data)
-      .then((data) => {
-        setProduct(data);
-      });
-  }, [id]);
+      .get('/api/products?_id=' + _id)
+      .then((res) => setProduct(res.data))
+  }, [_id]);
 
   return (
-    <div>
-      <h1>Edit Product</h1>
+    <div className='max-w-xl mx-auto'>
+      <h1 className='text-center'>Edit Product</h1>
       {product && <ProductForm product={product} />}
     </div>
   );
