@@ -20,6 +20,9 @@ export async function PUT(req) {
   await mongooseConnect();
   const data = await req.json();
   const { _id, ...rest } = data;
+  if (!_id) {
+    return Response.json('No product id to update');
+  }
   const productDoc = await Product.updateOne({ _id }, rest);
   return Response.json(productDoc);
 }
@@ -27,6 +30,9 @@ export async function PUT(req) {
 export async function DELETE(req) {
   await mongooseConnect();
   const _id = getId(req);
+  if (!_id) {
+    return Response.json('No product id to delete');
+  }
   const data = await Product.findByIdAndDelete(_id);
   return Response.json(data);
 }
