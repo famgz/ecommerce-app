@@ -13,7 +13,8 @@ label, .label {
 }
 
 input,
-textarea {
+textarea,
+select {
   @apply border-2 border-gray-400 rounded-md px-1 w-full;
 
   &:focus {
@@ -38,7 +39,7 @@ textarea {
 }
 
 .btn-white {
-  @apply btn bg-light border border-blue-300 font-bold;
+  @apply btn bg-light border border-blue-900 font-bold;
 }
 
 table.basic {
@@ -51,4 +52,8 @@ table.basic {
   & td, th {
     @apply border border-blue-200 p-1;
   }
+}
+
+.line-below {
+  @apply border-b border-solid border-gray-200;
 }

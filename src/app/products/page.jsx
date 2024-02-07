@@ -1,11 +1,7 @@
 'use client';
 
 import DeleteButton from '@/components/DeleteButton';
-import {
-  faPenToSquare,
-  faPlus,
-  faTrashCan,
-} from '@fortawesome/free-solid-svg-icons';
+import { faPenToSquare, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import Link from 'next/link';
@@ -27,6 +23,8 @@ export default function ProductsPage() {
 
   return (
     <div className='grid gap-4'>
+      <h1 className='font-bold'>Products</h1>
+
       {/* Add product button */}
       <Link
         className='flex gap-2 items-center bg-dark py-2 px-4 rounded-full w-fit'
@@ -37,12 +35,11 @@ export default function ProductsPage() {
       </Link>
 
       {/* Products list */}
-      <div className='flex flex-col gap-2'>
-        <h1 className='font-bold mt-2'>Products</h1>
+      <div className='flex flex-col gap-2 mt-5'>
         {products.map((p) => (
           <div key={p._id} className='flex'>
             {/* product name */}
-            <span className='flex-1 border-b border-solid border-gray-200 mr-5'>
+            <span className='flex-1 line-below mr-5'>
               {p.title}
             </span>
 
