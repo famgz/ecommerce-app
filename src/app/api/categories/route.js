@@ -26,7 +26,7 @@ export async function PUT(req) {
   await mongooseConnect();
   const { _id, name, parentCategory } = await req.json();
   if (!_id) {
-    return Response.json('No id to update');
+    return Response.json('No category id to update');
   }
   const res = await Category.findByIdAndUpdate(_id, {
     name,
@@ -39,7 +39,7 @@ export async function DELETE(req) {
   await mongooseConnect();
   const _id = getId(req);
   if (!_id) {
-    return Response.json('No id to update');
+    return Response.json('No category id to update');
   }
   const res = await Category.findByIdAndDelete(_id);
   return Response.json(res);
