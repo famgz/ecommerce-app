@@ -4,8 +4,8 @@ import { Product } from '@/models/Product';
 
 export async function GET(req) {
   await mongooseConnect();
-  const id = getId(req);
-  const data = id ? await Product.findById(id) : await Product.find();
+  const _id = getId(req);
+  const data = _id ? await Product.findById(_id) : await Product.find();
   return Response.json(data);
 }
 
@@ -26,7 +26,7 @@ export async function PUT(req) {
 
 export async function DELETE(req) {
   await mongooseConnect();
-  const id = getId(req);
-  const data = await Product.findByIdAndDelete(id);
+  const _id = getId(req);
+  const data = await Product.findByIdAndDelete(_id);
   return Response.json(data);
 }
