@@ -5,7 +5,10 @@ import { Category } from '@/models/Category';
 export async function GET() {
   await mongooseConnect();
   return Response.json(
-    await Category.find().populate('parent').sort({ parent: 1 })
+    await Category.find()
+      .populate('parent')
+      .collation({ locale: 'en' })
+      .sort({ parent: 1, name: 1 })
   );
 }
 
@@ -34,7 +37,7 @@ export async function PUT(req) {
 
 export async function DELETE(req) {
   await mongooseConnect();
-  const id = getId(req);
-  const data = await Category.findByIdAndDelete(id);
-  return Response.json(data);
+  const { _id } = await req.json();
+  const res = await Category.findByIdAndDelete(_id);
+  return Response.json(res);
 }
