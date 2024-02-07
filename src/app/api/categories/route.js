@@ -14,23 +14,23 @@ export async function GET() {
 
 export async function POST(req) {
   await mongooseConnect();
-  const { name, parentCategory } = await req.json();
+  const { name, parentCategoryId } = await req.json();
   if (!name) {
     return Response.json('Invalid or empty category name');
   }
-  const res = await Category.create({ name, parent: parentCategory || null });
+  const res = await Category.create({ name, parent: parentCategoryId || null });
   return Response.json(res);
 }
 
 export async function PUT(req) {
   await mongooseConnect();
-  const { _id, name, parentCategory } = await req.json();
+  const { _id, name, parentCategoryId } = await req.json();
   if (!_id) {
     return Response.json('No category id to update');
   }
   const res = await Category.findByIdAndUpdate(_id, {
     name,
-    parent: parentCategory || null,
+    parent: parentCategoryId || null,
   });
   return Response.json(res);
 }

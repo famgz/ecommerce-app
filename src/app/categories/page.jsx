@@ -10,7 +10,7 @@ import { withSwal } from 'react-sweetalert2';
 function CategoriesPage({ swal }) {
   const [editedCategory, setEditedCategory] = useState(null);
   const [name, setName] = useState('');
-  const [parentCategory, setParentCategory] = useState('');
+  const [parentCategoryId, setParentCategoryId] = useState('');
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
@@ -24,23 +24,49 @@ function CategoriesPage({ swal }) {
   function resetStates() {
     setEditedCategory(null);
     setName('');
-    setParentCategory('');
+    setParentCategoryId('');
   }
 
-  // create or edit category
   async function saveCategory(ev) {
     ev.preventDefault();
-    if (editedCategory) {
-      // edit existing category
+
+    const desiredParentCategory = categories.find(
+      (ct) => ct._id === parentCategoryId
+    );
+    const isDesiredParentCategoryChild = desiredParentCategory?.parent;
+
+    // redundancy, since the select tag won't offer children categories
+    if (isDesiredParentCategoryChild) {
+      alert('child category cannot be parent');
+      return;
+    }
+
+    // create new category
+    if (!editedCategory) {
+      await axios.post('/api/categories', {
+        name,
+        parentCategoryId,
+      });
+    }
+
+    // edit existing category
+    else {
+      const isEditedCategoryParent = categories.filter(
+        (ct) => ct.parent?._id === editedCategory._id
+      ).length;
+
+      if (isEditedCategoryParent && parentCategoryId) {
+        alert('parent category cannot have parent');
+        return;
+      }
+
       await axios.put('/api/categories', {
         _id: editedCategory._id,
         name,
-        parentCategory,
+        parentCategoryId: parentCategoryId,
       });
-      // create new category
-    } else {
-      await axios.post('/api/categories', { name, parentCategory });
     }
+
     getCategories();
     resetStates();
   }
@@ -60,21 +86,21 @@ function CategoriesPage({ swal }) {
           axios
             .delete('/api/categories?_id=' + category._id)
             .then((res) => console.log('deleted:', res.data))
-            .then(() => getCategories())
+            .finally(() => getCategories());
         }
-      })
+      });
   }
 
   // Send category fields to be edited
   function editCategory(ct) {
     setName(ct.name);
     setEditedCategory(ct);
-    setParentCategory(ct.parent?._id || '');
+    setParentCategoryId(ct.parent?._id || '');
   }
 
   return (
-    <div>
-      <h1 className='font-bold'>Categories</h1>
+    <div className=''>
+      <h1 className='font-bold text-center'>Categories</h1>
 
       {/* Create new category */}
       <form onSubmit={saveCategory}>
@@ -96,16 +122,21 @@ function CategoriesPage({ swal }) {
             />
             <select
               className='w-fit'
-              value={parentCategory}
-              onChange={(ev) => setParentCategory(ev.target.value)}
+              value={parentCategoryId}
+              onChange={(ev) => setParentCategoryId(ev.target.value)}
             >
               <option value=''>No parent category</option>
               {categories?.length > 0 &&
-                categories.map((ct) => (
-                  <option value={ct._id} key={ct._id}>
-                    {ct.name}
-                  </option>
-                ))}
+                categories.map((ct) => {
+                  if (ct.parent) {
+                    return;
+                  }
+                  return (
+                    <option value={ct._id} key={ct._id}>
+                      {ct.name}
+                    </option>
+                  );
+                })}
             </select>
             <button type='submit' className='btn-primary'>
               Save
@@ -154,9 +185,12 @@ function CategoriesPage({ swal }) {
                   label={'Delete'}
                   onDelete={() => deleteCategory(ct._id)}
                 /> */}
-                <button 
-                className='btn-white'
-                onClick={() => deleteCategory(ct)}>Delete</button>
+                <button
+                  className='btn-white'
+                  onClick={() => deleteCategory(ct)}
+                >
+                  Delete
+                </button>
               </div>
             </div>
           ))}
