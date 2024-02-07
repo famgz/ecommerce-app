@@ -58,7 +58,7 @@ function CategoriesPage({ swal }) {
       .then((res) => {
         if (res.isConfirmed) {
           axios
-            .delete('/api/categories?id=' + category._id)
+            .delete('/api/categories?_id=' + category._id)
             .then((res) => console.log('deleted:', res.data))
             .then(() => getCategories())
         }
