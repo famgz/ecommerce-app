@@ -5,8 +5,9 @@ import { faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { withSwal } from 'react-sweetalert2';
 
-export default function CategoriesPage() {
+function CategoriesPage({ swal }) {
   const [editedCategory, setEditedCategory] = useState(null);
   const [name, setName] = useState('');
   const [parentCategory, setParentCategory] = useState('');
@@ -44,11 +45,24 @@ export default function CategoriesPage() {
     resetStates();
   }
 
-  function deleteCategory(_id) {
-    axios
-      .delete('/api/categories?id=' + _id)
-      .then((res) => console.log('deleted:', res.data));
-    setCategories((prev) => prev.filter((p) => p._id !== _id));
+  function deleteCategory(category) {
+    swal
+      .fire({
+        title: 'Are you sure?',
+        text: `Do you want to delete category "${category.name}"?`,
+        showCancelButton: true,
+        confirmButtonText: 'Yes, Delete',
+        confirmButtonColor: '#d55',
+        reverseButtons: true,
+      })
+      .then((res) => {
+        if (res.isConfirmed) {
+          axios
+            .delete('/api/categories?id=' + category._id)
+            .then((res) => console.log('deleted:', res.data))
+            .then(() => getCategories())
+        }
+      })
   }
 
   // Send category fields to be edited
@@ -75,6 +89,8 @@ export default function CategoriesPage() {
               type='text'
               placeholder='Category name'
               value={name}
+              minLength='3'
+              maxLength='30'
               required
               onChange={(ev) => setName(ev.target.value)}
             />
@@ -134,10 +150,13 @@ export default function CategoriesPage() {
                 </button>
 
                 {/* delete button */}
-                <DeleteButton
+                {/* <DeleteButton
                   label={'Delete'}
                   onDelete={() => deleteCategory(ct._id)}
-                />
+                /> */}
+                <button 
+                className='btn-white'
+                onClick={() => deleteCategory(ct)}>Delete</button>
               </div>
             </div>
           ))}
@@ -145,3 +164,7 @@ export default function CategoriesPage() {
     </div>
   );
 }
+
+export default withSwal(({ swal }, ref) => {
+  return <CategoriesPage swal={swal} />;
+});
