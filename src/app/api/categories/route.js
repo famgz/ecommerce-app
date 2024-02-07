@@ -37,7 +37,10 @@ export async function PUT(req) {
 
 export async function DELETE(req) {
   await mongooseConnect();
-  const { _id } = await req.json();
+  const _id = getId(req);
+  if (!_id) {
+    return Response.json('No id to update');
+  }
   const res = await Category.findByIdAndDelete(_id);
   return Response.json(res);
 }
