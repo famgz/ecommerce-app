@@ -23,7 +23,7 @@ export async function PUT(req) {
   if (!_id) {
     return Response.json('No product id to update');
   }
-  const productDoc = await Product.updateOne({ _id }, rest);
+  const productDoc = await Product.findByIdAndUpdate(_id, rest);
   return Response.json(productDoc);
 }
 
