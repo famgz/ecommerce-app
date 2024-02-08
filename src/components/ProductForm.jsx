@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { BeatLoader } from 'react-spinners';
 import { ReactSortable } from 'react-sortablejs';
 
@@ -14,12 +14,18 @@ export default function ProductForm({ product }) {
   const [description, setDescription] = useState(product?.description || '');
   const [price, setPrice] = useState(product?.price || '');
   const [images, setImages] = useState(product?.images || []);
+  const [category, setCategory] = useState(product?.category || '');
   const [isUploading, setIsUploading] = useState(false);
+  const [categories, setCategories] = useState([]);
   const router = useRouter();
+
+  useEffect(() => {
+    axios.get('/api/categories').then((res) => setCategories(res.data));
+  }, []);
 
   async function saveProduct(ev) {
     ev.preventDefault();
-    const data = { title, description, price, images };
+    const data = { title, description, price, images, category };
 
     // update product
     if (product?._id) {
@@ -55,11 +61,11 @@ export default function ProductForm({ product }) {
   }
 
   return (
-    <div>
+    <div className=''>
       <form onSubmit={saveProduct} className='grid gap-1'>
         {/* Name */}
         <label>
-          <span>Product Name</span>
+          <span className='label'>Product Name</span>
           <input
             type='text'
             placeholder='product name'
@@ -70,8 +76,8 @@ export default function ProductForm({ product }) {
         </label>
 
         {/* Images */}
-        <div className='label'>
-          <span>Images</span>
+        <div>
+          <span className='label'>Images</span>
           <div className='flex gap-2 mb-2 flex-wrap'>
             <ReactSortable
               list={images}
@@ -99,7 +105,7 @@ export default function ProductForm({ product }) {
               className='flex flex-col items-center justify-center gap-2 size-24 cursor-pointer border text-xs text-gray-500 rounded-lg bg-gray-100'
             >
               <FontAwesomeIcon icon={faArrowUpFromBracket} className='size-6' />
-              <span>Upload</span>
+              <span className='label'>Upload</span>
               <input
                 type='file'
                 className='hidden'
@@ -116,7 +122,7 @@ export default function ProductForm({ product }) {
 
         {/* Description */}
         <label>
-          <span>Description</span>
+          <span className='label'>Description</span>
           <textarea
             placeholder='description'
             value={description}
@@ -125,19 +131,38 @@ export default function ProductForm({ product }) {
           />
         </label>
 
-        {/* Price */}
-        <label>
-          <span>Price (in USD)</span>
-          <input
-            type='number'
-            placeholder='price'
-            value={price}
-            onChange={(ev) => setPrice(ev.target.value)}
-            required
-          />
-        </label>
+        <div className='grid grid-cols-[1fr_2fr] md:grid-cols-[1fr_1fr] gap-2'>
+          {/* Price */}
+          <label className=''>
+            <span className='label'>Price (in USD)</span>
+            <input
+              type='number'
+              placeholder='price'
+              value={price}
+              onChange={(ev) => setPrice(ev.target.value)}
+              required
+            />
+          </label>
 
-        <button type='submit' className='btn-primary mt-3 w-fit'>
+          {/* Category */}
+          <label>
+            <span className='label'>Category</span>
+            <select
+              className=''
+              value={category}
+              onChange={(ev) => setCategory(ev.target.value)}
+            >
+              <option value=''>No category</option>
+              {categories?.length > 0 &&
+                categories.map((ct) => (
+                  <option value={ct._id} key={ct._id}>
+                    {ct.name}
+                  </option>
+                ))}
+            </select>
+          </label>
+        </div>
+        <button type='submit' className='btn-primary mt-3 w-full mx-auto'>
           Save
         </button>
       </form>
