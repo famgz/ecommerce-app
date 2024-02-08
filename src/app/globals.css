@@ -6,10 +6,8 @@ h1 {
   @apply text-blue-900 mb-2 font-bold text-xl;
 }
 
-label, .label {
-  & > span {
-    @apply text-blue-900 text-xs font-bold whitespace-nowrap;
-  }
+.label {
+  @apply block text-blue-900 text-sm font-bold whitespace-nowrap;
 }
 
 input,
@@ -22,6 +20,14 @@ select {
   }
 }
 
+.container {
+  @apply max-w-xl mx-auto;
+
+  & h1 {
+    @apply text-center text-2xl font-bold;
+  }
+}
+
 .bg-light {
   @apply bg-white text-blue-900;
 }
@@ -31,7 +37,7 @@ select {
 }
 
 .btn {
-  @apply inline-flex items-center justify-center gap-1 py-1 px-4 rounded-full;
+  @apply inline-flex items-center justify-center gap-1 py-1 px-4 text-sm rounded-full;
 }
 
 .btn-primary {
@@ -49,7 +55,8 @@ table.basic {
     @apply bg-blue-100;
   }
 
-  & td, th {
+  & td,
+  th {
     @apply border border-blue-200 p-1;
   }
 }
