@@ -1,7 +1,10 @@
 'use client';
 
-import DeleteButton from '@/components/DeleteButton';
-import { faPenToSquare } from '@fortawesome/free-solid-svg-icons';
+import {
+  faPenToSquare,
+  faPlus,
+  faTrash
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
@@ -12,6 +15,7 @@ function CategoriesPage({ swal }) {
   const [name, setName] = useState('');
   const [parentCategoryId, setParentCategoryId] = useState('');
   const [categories, setCategories] = useState([]);
+  const [properties, setProperties] = useState([]);
 
   useEffect(() => {
     getCategories();
@@ -21,10 +25,11 @@ function CategoriesPage({ swal }) {
     axios.get('/api/categories').then((res) => setCategories(res.data));
   }
 
-  function resetStates() {
+  function resetEditStates() {
     setEditedCategory(null);
     setName('');
     setParentCategoryId('');
+    setProperties([])
   }
 
   async function saveCategory(ev) {
@@ -41,12 +46,15 @@ function CategoriesPage({ swal }) {
       return;
     }
 
+    const data = {
+      name,
+      parentCategoryId,
+      properties
+    }
+
     // create new category
     if (!editedCategory) {
-      await axios.post('/api/categories', {
-        name,
-        parentCategoryId,
-      });
+      await axios.post('/api/categories', data);
     }
 
     // edit existing category
@@ -62,13 +70,12 @@ function CategoriesPage({ swal }) {
 
       await axios.put('/api/categories', {
         _id: editedCategory._id,
-        name,
-        parentCategoryId: parentCategoryId,
+        ...data
       });
     }
 
     getCategories();
-    resetStates();
+    resetEditStates();
   }
 
   function deleteCategory(category) {
@@ -96,100 +103,165 @@ function CategoriesPage({ swal }) {
     setName(ct.name);
     setEditedCategory(ct);
     setParentCategoryId(ct.parent?._id || '');
+    setProperties(ct.properties || [])
+  }
+
+  function addProperty() {
+    setProperties((prev) => [...prev, { name: '', values: '' }]);
+  }
+
+  function removeProperty(indexToRemove) {
+    setProperties((prev) => prev.filter((_, i) => i !== indexToRemove));
+  }
+
+  function handlePropertyChange(index, newData, type) {
+    setProperties((prev) => {
+      const properties = [...prev];
+      properties[index][type] = newData;
+      return properties;
+    });
   }
 
   return (
-    <div className=''>
-      <h1 className='font-bold text-center'>Categories</h1>
+    <div className='container'>
+      <h1>Categories</h1>
 
-      {/* Create new category */}
+      {/* Create/update category */}
       <form onSubmit={saveCategory}>
-        <label>
-          <span>
-            {editedCategory
-              ? `Edit category "${editedCategory.name}"`
-              : 'Create new category'}
-          </span>
-          <div className='flex gap-2'>
-            <input
-              type='text'
-              placeholder='Category name'
-              value={name}
-              minLength='3'
-              maxLength='30'
-              required
-              onChange={(ev) => setName(ev.target.value)}
-            />
-            <select
-              className='w-fit'
-              value={parentCategoryId}
-              onChange={(ev) => setParentCategoryId(ev.target.value)}
-            >
-              <option value=''>No parent category</option>
-              {categories?.length > 0 &&
-                categories.map((ct) => {
-                  if (ct.parent) {
-                    return;
-                  }
-                  return (
-                    <option value={ct._id} key={ct._id}>
-                      {ct.name}
-                    </option>
-                  );
-                })}
-            </select>
-            <button type='submit' className='btn-primary'>
+        <div className='grid gap-2 line-below pb-7'>
+          <div>
+            <span className='label'>
+              {editedCategory
+                ? `Edit category "${editedCategory.name}"`
+                : 'Create new category'}
+            </span>
+
+            <div className='flex gap-1'>
+              <input
+                type='text'
+                placeholder='Category name'
+                value={name}
+                minLength='3'
+                maxLength='30'
+                required
+                onChange={(ev) => setName(ev.target.value)}
+              />
+              <select
+                className='w-fit'
+                value={parentCategoryId}
+                onChange={(ev) => setParentCategoryId(ev.target.value)}
+              >
+                <option value=''>No parent category</option>
+                {categories?.length > 0 &&
+                  categories.map((ct) => {
+                    if (ct.parent) {
+                      return;
+                    }
+                    return (
+                      <option value={ct._id} key={ct._id}>
+                        {ct.name}
+                      </option>
+                    );
+                  })}
+              </select>
+            </div>
+          </div>
+
+          {/* Category properties */}
+          <div className='mt-3'>
+            <span className='label'>Properties</span>
+            <button type='button' className='btn-white' onClick={addProperty}>
+              <FontAwesomeIcon icon={faPlus} className='size-3' />
+              <span>Add new property</span>
+            </button>
+          </div>
+
+          <div className='grid gap-2'>
+            {properties.length > 0 &&
+              properties.map((ppt, index) => (
+                <div key={index} className='flex gap-1'>
+                  <input
+                    type='text'
+                    value={ppt.name}
+                    onChange={(ev) =>
+                      handlePropertyChange(index, ev.target.value, 'name')
+                    }
+                    placeholder='property name (ex.: color, size)'
+                  />
+                  <input
+                    type='text'
+                    value={ppt.values}
+                    placeholder='values, comma separated'
+                    onChange={(ev) =>
+                      handlePropertyChange(index, ev.target.value, 'values')
+                    }
+                  />
+                  <button
+                    className='btn-white'
+                    type='button'
+                    onClick={() => removeProperty(index)}
+                  >
+                    <FontAwesomeIcon icon={faTrash} />
+                  </button>
+                </div>
+              ))}
+          </div>
+
+          {/* Buttons */}
+          <div className='flex gap-2 justify-center mt-5'>
+            <button type='submit' className='btn-primary w-full'>
               Save
             </button>
-            <button onClick={resetStates} type='reset' className='btn-white'>
+            <button
+              onClick={resetEditStates}
+              type='reset'
+              className='btn-white w-full'
+            >
               Clear
             </button>
           </div>
-        </label>
+        </div>
       </form>
 
       {/* Categories list */}
-      <div className='flex flex-col gap-2 mt-5'>
-        <div className='flex-1 grid grid-cols-[3fr_2fr] md:grid-cols-[3fr_1fr]'>
-          <div className='label grid grid-cols-2 mr-5'>
-            <span>Name</span>
-            <span>Parent category</span>
+      <div className='flex flex-col gap-2 mt-7'>
+        <div className='grid grid-cols-[4fr_1fr] flex-1'>
+          <div className='grid grid-cols-2'>
+            <span className='label'>Name</span>
+            <span className='label'>Parent category</span>
           </div>
         </div>
         {categories?.length > 0 &&
           categories.map((ct) => (
             <div
               key={ct._id}
-              className='grid grid-cols-[3fr_2fr] md:grid-cols-[3fr_1fr] w-full'
+              className='grid grid-cols-[4fr_1fr] w-full'
             >
-              <div className='grid grid-cols-2 line-below mr-5'>
+              <div className='grid grid-cols-2 line-below'>
                 {/* category name */}
-                <span className='flex-1'>{ct.name}</span>
+                <span className='flex-1 font-semibold'>{ct.name}</span>
 
                 {/* category parent */}
                 <span className=''>{ct?.parent?.name || '-'}</span>
               </div>
 
-              <div className='flex gap-1 justify-center'>
+              <div className='flex gap-1 justify-end'>
                 {/* edit button */}
                 <button
                   onClick={() => editCategory(ct)}
-                  className='btn-primary'
+                  className='btn-primary !h-full'
                 >
                   <FontAwesomeIcon icon={faPenToSquare} className='size-3' />
-                  <span>Edit</span>
+                  {/* <span>Edit</span> */}
                 </button>
 
                 {/* delete button */}
-                {/* <DeleteButton
-                  label={'Delete'}
-                  onDelete={() => deleteCategory(ct._id)}
-                /> */}
                 <button
                   className='btn-white'
                   onClick={() => deleteCategory(ct)}
                 >
-                  Delete
+                  <FontAwesomeIcon icon={faTrash} className='size-3' />
+                  {/* <span>Delete</span> */}
                 </button>
               </div>
             </div>
