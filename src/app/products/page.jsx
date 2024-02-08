@@ -11,26 +11,30 @@ export default function ProductsPage() {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
+    getProducts();
+  }, []);
+
+  function getProducts() {
     axios.get('/api/products').then((res) => setProducts(res.data));
-  }, [products]);
+  }
 
   function deleteProduct(_id) {
     axios
-      .delete('/api/products?id=' + _id)
-      .then((res) => console.log('deleted:', res.data));
-    setProducts((prev) => prev.filter((p) => p._id !== _id));
+      .delete('/api/products?_id=' + _id)
+      .then((res) => console.log('deleted:', res.data))
+      .finally(() => getProducts());
   }
 
   return (
-    <div className='grid gap-4'>
-      <h1 className='font-bold'>Products</h1>
+    <div className='container grid gap-4'>
+      <h1>Products</h1>
 
       {/* Add product button */}
       <Link
-        className='flex gap-2 items-center bg-dark py-2 px-4 rounded-full w-fit'
+        className='btn-primary w-fit'
         href={'/products/new'}
       >
-        <FontAwesomeIcon icon={faPlus} />
+        <FontAwesomeIcon icon={faPlus} className='size-3'/>
         Add product
       </Link>
 
@@ -39,9 +43,7 @@ export default function ProductsPage() {
         {products.map((p) => (
           <div key={p._id} className='flex'>
             {/* product name */}
-            <span className='flex-1 line-below mr-5'>
-              {p.title}
-            </span>
+            <span className='flex-1 line-below mr-5 font-semibold'>{p.title}</span>
 
             {/* edit button */}
             <Link href={'/products/edit/' + p._id} className='btn-primary mr-2'>

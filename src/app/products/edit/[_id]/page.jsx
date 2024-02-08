@@ -19,8 +19,8 @@ export default function EditProductPage() {
   }, [_id]);
 
   return (
-    <div className='max-w-xl mx-auto'>
-      <h1 className='text-center'>Edit Product</h1>
+    <div className='container'>
+      <h1>Edit Product</h1>
       {product && <ProductForm product={product} />}
     </div>
   );
