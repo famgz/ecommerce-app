@@ -12,6 +12,7 @@ const CategorySchema = new Schema(
       maxLength: 30,
     },
     parent: { type: mongoose.Types.ObjectId, ref: 'Category', default: null },
+    properties: { type: Object, default: [] },
   },
   { timestamps: true }
 );
