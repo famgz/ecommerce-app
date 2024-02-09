@@ -162,9 +162,18 @@ export default function ProductForm({ product }) {
             </select>
           </label>
         </div>
-        <button type='submit' className='btn-primary mt-3 w-full mx-auto'>
-          Save
-        </button>
+        <div className='flex gap-2 mt-3'>
+          <button
+            type='button'
+            className='btn-white w-full'
+            onClick={() => router.push('/products')}
+          >
+            Cancel
+          </button>
+          <button type='submit' className='btn-primary w-full'>
+            Save
+          </button>
+        </div>
       </form>
     </div>
   );
