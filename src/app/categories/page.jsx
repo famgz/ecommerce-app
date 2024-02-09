@@ -1,3 +1,5 @@
+/** @format */
+
 'use client';
 
 import {
@@ -53,7 +55,7 @@ function CategoriesPage({ swal }) {
     const desiredParentCategory = categories.find(
       (ct) => ct._id === parentCategoryId
     );
-    
+
     // redundancy, since the select tag won't offer children categories
     const isAssigningChildToChild = desiredParentCategory?.parent;
     if (isAssigningChildToChild) {
@@ -191,41 +193,52 @@ function CategoriesPage({ swal }) {
           {/* Category properties */}
           <div className='mt-3'>
             <span className='label'>Properties</span>
-            <button type='button' className='btn-white' onClick={addProperty}>
+            <button
+              type='button'
+              className='btn-white mt-2'
+              onClick={addProperty}
+            >
               <FontAwesomeIcon icon={faPlus} className='size-3' />
               <span>Add new property</span>
             </button>
           </div>
 
           <div className='grid gap-2'>
-            {properties.length > 0 &&
-              properties.map((ppt, index) => (
-                <div key={index} className='flex gap-1'>
-                  <input
-                    type='text'
-                    value={ppt.name}
-                    onChange={(ev) =>
-                      handlePropertyChange(index, ev.target.value, 'name')
-                    }
-                    placeholder='property name (ex.: color)'
-                  />
-                  <input
-                    type='text'
-                    value={ppt.values}
-                    placeholder='values, comma separated'
-                    onChange={(ev) =>
-                      handlePropertyChange(index, ev.target.value, 'values')
-                    }
-                  />
-                  <button
-                    className='btn-white'
-                    type='button'
-                    onClick={() => removeProperty(index)}
-                  >
-                    <FontAwesomeIcon icon={faTrash} />
-                  </button>
+            {properties.length > 0 && (
+              <div className='grid gap-1'>
+                <div className='grid grid-cols-2 mr-[46px]'>
+                  <span className='label !text-xs'>name</span>
+                  <span className='label !text-xs'>values</span>
                 </div>
-              ))}
+                {properties.map((ppt, index) => (
+                  <div key={index} className='flex gap-1'>
+                    <input
+                      type='text'
+                      value={ppt.name}
+                      onChange={(ev) =>
+                        handlePropertyChange(index, ev.target.value, 'name')
+                      }
+                      placeholder='property name (ex.: color)'
+                    />
+                    <input
+                      type='text'
+                      value={ppt.values}
+                      placeholder='values, comma separated'
+                      onChange={(ev) =>
+                        handlePropertyChange(index, ev.target.value, 'values')
+                      }
+                    />
+                    <button
+                      className='btn-white'
+                      type='button'
+                      onClick={() => removeProperty(index)}
+                    >
+                      <FontAwesomeIcon icon={faTrash} />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Buttons */}
@@ -246,21 +259,32 @@ function CategoriesPage({ swal }) {
 
       {/* Categories list */}
       <div className='flex flex-col gap-2 mt-7'>
-        <div className='grid grid-cols-[4fr_1fr] flex-1'>
-          <div className='grid grid-cols-2'>
+        <div className='grid grid-cols-[5fr_1fr] flex-1'>
+          <div className='grid grid-cols-3'>
             <span className='label'>Name</span>
             <span className='label'>Parent category</span>
+            <span className='label'>Properties</span>
           </div>
         </div>
         {categories?.length > 0 &&
           categories.map((ct) => (
-            <div key={ct._id} className='grid grid-cols-[4fr_1fr] w-full'>
-              <div className='grid grid-cols-2 line-below'>
-                {/* category name */}
+            <div key={ct._id} className='grid grid-cols-[5fr_1fr] w-full'>
+              <div className='grid grid-cols-3 line-below'>
+                {/* name */}
                 <span className='font-semibold'>{ct.name}</span>
 
-                {/* category parent */}
+                {/* parent */}
                 <span className=''>{ct?.parent?.name || '-'}</span>
+
+                {/* properties */}
+                <span
+                  title={ct.properties.map((p) => p.name).join()}
+                  className='truncate text-xs'
+                >
+                  {ct.properties.length > 0
+                    ? ct.properties.map((p) => p.name).join(', ')
+                    : '-'}
+                </span>
               </div>
 
               <div className='flex gap-1 justify-end'>
@@ -270,7 +294,6 @@ function CategoriesPage({ swal }) {
                   className='btn-primary !h-full'
                 >
                   <FontAwesomeIcon icon={faPenToSquare} className='size-3' />
-                  {/* <span>Edit</span> */}
                 </button>
 
                 {/* delete button */}
@@ -279,7 +302,6 @@ function CategoriesPage({ swal }) {
                   onClick={() => deleteCategory(ct)}
                 >
                   <FontAwesomeIcon icon={faTrash} className='size-3' />
-                  {/* <span>Delete</span> */}
                 </button>
               </div>
             </div>
