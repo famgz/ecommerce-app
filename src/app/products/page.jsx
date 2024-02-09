@@ -9,13 +9,23 @@ import { useEffect, useState } from 'react';
 
 export default function ProductsPage() {
   const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
 
   useEffect(() => {
     getProducts();
+    getCategories();
   }, []);
 
   function getProducts() {
     axios.get('/api/products').then((res) => setProducts(res.data));
+  }
+
+  function getCategories() {
+    axios.get('/api/categories').then((res) => setCategories(res.data));
+  }
+
+  function getCategoryName(categoryId) {
+    return categories.find((c) => c._id === categoryId)?.name;
   }
 
   function deleteProduct(_id) {
@@ -30,32 +40,40 @@ export default function ProductsPage() {
       <h1>Products</h1>
 
       {/* Add product button */}
-      <Link
-        className='btn-primary w-fit'
-        href={'/products/new'}
-      >
-        <FontAwesomeIcon icon={faPlus} className='size-3'/>
+      <Link className='btn-primary w-fit' href={'/products/new'}>
+        <FontAwesomeIcon icon={faPlus} className='size-3' />
         Add product
       </Link>
 
       {/* Products list */}
       <div className='flex flex-col gap-2 mt-5'>
+        <div className='grid grid-cols-[4fr_1fr] flex-1'>
+          <div className='grid grid-cols-2'>
+            <span className='label'>Name</span>
+            <span className='label'>Category</span>
+          </div>
+        </div>
         {products.map((p) => (
-          <div key={p._id} className='flex'>
-            {/* product name */}
-            <span className='flex-1 line-below mr-5 font-semibold'>{p.title}</span>
+          <div key={p._id} className='grid grid-cols-[4fr_1fr] w-full'>
+            <div className='grid grid-cols-2 line-below'>
+              {/* product name */}
+              <span className='font-semibold'>{p.title}</span>
+              <span className=''>{getCategoryName(p.category)}</span>
+            </div>
 
-            {/* edit button */}
-            <Link href={'/products/edit/' + p._id} className='btn-primary mr-2'>
-              <FontAwesomeIcon icon={faPenToSquare} className='size-3' />
-              <span>Edit</span>
-            </Link>
+            <div className='flex gap-1 justify-end'>
+              {/* edit button */}
+              <Link
+                href={'/products/edit/' + p._id}
+                className='btn-primary mr-2'
+              >
+                <FontAwesomeIcon icon={faPenToSquare} className='size-3' />
+                {/* <span>Edit</span> */}
+              </Link>
 
-            {/* delete button */}
-            <DeleteButton
-              label={'Delete'}
-              onDelete={() => deleteProduct(p._id)}
-            />
+              {/* delete button */}
+              <DeleteButton label={''} onDelete={() => deleteProduct(p._id)} />
+            </div>
           </div>
         ))}
       </div>

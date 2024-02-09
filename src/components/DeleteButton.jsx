@@ -1,4 +1,4 @@
-import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
 
@@ -13,7 +13,7 @@ export default function DeleteButton({ label, onDelete }) {
         type='button'
         onClick={() => setShowConfirm(true)}
       >
-        <FontAwesomeIcon icon={faTrashCan} className='size-3' />
+        <FontAwesomeIcon icon={faTrash} className='size-3' />
         {label}
       </button>
 
