@@ -39,7 +39,7 @@ export default async function RootLayout({ children }) {
       <body className={roboto.className}>
         <div className='bg-blue-900 text-white flex min-h-screen'>
           <Nav />
-          <main className='bg-white text-black flex-grow m-2 ml-0 rounded-lg p-4'>
+          <main className='bg-white text-gray-700 flex-grow m-2 ml-0 rounded-lg p-4'>
             {children}
           </main>
         </div>
