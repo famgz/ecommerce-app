@@ -37,7 +37,10 @@ function CategoriesPage({ swal }) {
     return properties
       .map(({ name, values }) => ({
         name: name.trim(),
-        values: values.split(',').map(x => x.trim()).filter(Boolean)
+        values: values
+          .split(',')
+          .map((x) => x.trim())
+          .filter(Boolean),
       }))
       .filter(({ name, values }) => name && values.length > 0);
   }
@@ -45,13 +48,15 @@ function CategoriesPage({ swal }) {
   async function saveCategory(ev) {
     ev.preventDefault();
 
+    // TODO: parent/child checking needs a clearer naming refactor
+
     const desiredParentCategory = categories.find(
       (ct) => ct._id === parentCategoryId
     );
-    const isDesiredParentCategoryChild = desiredParentCategory?.parent;
-
+    
     // redundancy, since the select tag won't offer children categories
-    if (isDesiredParentCategoryChild) {
+    const isAssigningChildToChild = desiredParentCategory?.parent;
+    if (isAssigningChildToChild) {
       alert('child category cannot be parent');
       return;
     }
@@ -69,11 +74,11 @@ function CategoriesPage({ swal }) {
 
     // edit existing category
     else {
-      const isEditedCategoryParent = categories.filter(
-        (ct) => ct.parent?._id === editedCategory._id
-      ).length;
+      const isAssigningParentToParent =
+        categories.filter((ct) => ct.parent?._id === editedCategory._id)
+          .length && parentCategoryId;
 
-      if (isEditedCategoryParent && parentCategoryId) {
+      if (isAssigningParentToParent) {
         alert('parent category cannot have parent');
         return;
       }
@@ -115,7 +120,10 @@ function CategoriesPage({ swal }) {
     setParentCategoryId(ct.parent?._id || '');
     setProperties(
       // convert back to comma separated string
-      ct.properties.map(({ name, values }) => ({ name, values: values.join(', ') }))
+      ct.properties.map(({ name, values }) => ({
+        name,
+        values: values.join(', '),
+      }))
     );
   }
 
