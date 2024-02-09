@@ -31,7 +31,7 @@ select {
 }
 
 .bg-light {
-  @apply bg-white text-blue-900;
+  @apply bg-gray-100 text-blue-900;
 }
 
 .bg-dark {
@@ -39,15 +39,16 @@ select {
 }
 
 .btn {
-  @apply inline-flex items-center justify-center gap-1 py-1 px-4 text-sm rounded-full;
+  @apply inline-flex items-center justify-center gap-1 py-1 px-4 text-sm rounded-full hover:shadow-md;
 }
 
 .btn-primary {
-  @apply btn bg-dark;
+  @apply btn bg-dark hover:brightness-125;
 }
 
 .btn-white {
-  @apply btn bg-light border border-blue-900 font-bold;
+  /* @apply btn bg-light border border-blue-900 font-bold; */
+  @apply btn bg-light border border-gray-200 hover:border-gray-300 font-bold;
 }
 
 table.basic {

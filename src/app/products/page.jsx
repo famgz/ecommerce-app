@@ -1,3 +1,5 @@
+/** @format */
+
 'use client';
 
 import DeleteButton from '@/components/DeleteButton';
@@ -47,14 +49,14 @@ export default function ProductsPage() {
 
       {/* Products list */}
       <div className='flex flex-col gap-2 mt-5'>
-        <div className='grid grid-cols-[4fr_1fr] flex-1'>
+        <div className='grid grid-cols-[5fr_1fr] flex-1'>
           <div className='grid grid-cols-2'>
             <span className='label'>Name</span>
             <span className='label'>Category</span>
           </div>
         </div>
         {products.map((p) => (
-          <div key={p._id} className='grid grid-cols-[4fr_1fr] w-full'>
+          <div key={p._id} className='grid grid-cols-[5fr_1fr] w-full'>
             <div className='grid grid-cols-2 line-below'>
               {/* product name */}
               <span className='font-semibold'>{p.title}</span>
@@ -63,12 +65,8 @@ export default function ProductsPage() {
 
             <div className='flex gap-1 justify-end'>
               {/* edit button */}
-              <Link
-                href={'/products/edit/' + p._id}
-                className='btn-primary mr-2'
-              >
+              <Link href={'/products/edit/' + p._id} className='btn-primary'>
                 <FontAwesomeIcon icon={faPenToSquare} className='size-3' />
-                {/* <span>Edit</span> */}
               </Link>
 
               {/* delete button */}

@@ -135,7 +135,7 @@ export default function ProductForm({ product }) {
                     key={index}
                     src={link}
                     alt='product image'
-                    className='h-24 w-auto border rounded-lg'
+                    className='h-24 w-auto border rounded-lg hover:shadow-md'
                   />
                 ))}
             </ReactSortable>
