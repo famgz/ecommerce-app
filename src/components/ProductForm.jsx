@@ -1,3 +1,5 @@
+/** @format */
+
 'use client';
 
 import { faArrowUpFromBracket } from '@fortawesome/free-solid-svg-icons';
@@ -14,7 +16,10 @@ export default function ProductForm({ product }) {
   const [description, setDescription] = useState(product?.description || '');
   const [price, setPrice] = useState(product?.price || '');
   const [images, setImages] = useState(product?.images || []);
-  const [category, setCategory] = useState(product?.category || '');
+  const [categoryId, setCategoryId] = useState(product?.category || '');
+  const [productProperties, setProductProperties] = useState(
+    product.properties
+  );
   const [isUploading, setIsUploading] = useState(false);
   const [categories, setCategories] = useState([]);
   const router = useRouter();
@@ -25,7 +30,14 @@ export default function ProductForm({ product }) {
 
   async function saveProduct(ev) {
     ev.preventDefault();
-    const data = { title, description, price, images, category };
+    const data = {
+      title,
+      description,
+      price,
+      images,
+      category: categoryId,
+      properties: productProperties,
+    };
 
     // update product
     if (product?._id) {
@@ -60,9 +72,41 @@ export default function ProductForm({ product }) {
     setIsUploading(false);
   }
 
+  const propertiesToFill = [];
+  if (categories.length > 0 && categoryId) {
+    // get category props
+    const categoryObj = categories.find(({ _id }) => _id === categoryId);
+    propertiesToFill.push(...categoryObj.properties);
+    // get parent category props
+    const parentCategoryProps = categoryObj?.parent?.properties;
+    if (parentCategoryProps) {
+      propertiesToFill.push(...parentCategoryProps);
+    }
+  }
+
+  function handleChangeCategory(newCategory) {
+    setCategoryId(newCategory);
+    setProductProperties({}); // reset properties, so it won't have another category's props
+  }
+
+  function changeProductProp(propName, value) {
+    value = value.trim();
+    let newProps = { ...productProperties };
+    // remove prop (empty value)
+    if (!value) {
+      delete newProps[propName];
+    }
+    // add prop
+    else {
+      newProps[propName] = value;
+    }
+
+    setProductProperties(newProps);
+  }
+
   return (
     <div className=''>
-      <form onSubmit={saveProduct} className='grid gap-1'>
+      <form onSubmit={saveProduct} className='grid gap-2'>
         {/* Name */}
         <label>
           <span className='label'>Product Name</span>
@@ -131,37 +175,68 @@ export default function ProductForm({ product }) {
           />
         </label>
 
-        <div className='grid grid-cols-[1fr_2fr] md:grid-cols-[1fr_1fr] gap-2'>
-          {/* Price */}
-          <label className=''>
-            <span className='label'>Price (in USD)</span>
-            <input
-              type='number'
-              placeholder='price'
-              value={price}
-              onChange={(ev) => setPrice(ev.target.value)}
-              required
-            />
-          </label>
+        {/* Price */}
+        <label className=''>
+          <span className='label'>Price (in USD)</span>
+          <input
+            type='number'
+            placeholder='price'
+            value={price}
+            onChange={(ev) => setPrice(ev.target.value)}
+            required
+          />
+        </label>
 
-          {/* Category */}
-          <label>
-            <span className='label'>Category</span>
-            <select
-              className=''
-              value={category}
-              onChange={(ev) => setCategory(ev.target.value)}
-            >
-              <option value=''>No category</option>
-              {categories?.length > 0 &&
-                categories.map((ct) => (
-                  <option value={ct._id} key={ct._id}>
-                    {ct.name}
-                  </option>
-                ))}
-            </select>
-          </label>
+        {/* Category */}
+        <label>
+          <span className='label'>Category</span>
+          <select
+            className=''
+            value={categoryId}
+            onChange={(ev) => handleChangeCategory(ev.target.value)}
+          >
+            <option value=''>No category</option>
+            {categories?.length > 0 &&
+              categories.map((ct) => (
+                <option value={ct._id} key={ct._id}>
+                  {ct.name}
+                </option>
+              ))}
+          </select>
+        </label>
+
+        {/* Category properties */}
+        <div className=''>
+          {propertiesToFill.length > 0 && (
+            <div className='grid gap-1'>
+              <span className='label'>Properties</span>
+              {propertiesToFill.map((p, i) => (
+                <div key={i} className='flex gap-4'>
+                  <div className='w-full'>{p.name}</div>
+                  <select
+                    value={productProperties[p.name]}
+                    onChange={(ev) =>
+                      changeProductProp(p.name, ev.target.value)
+                    }
+                  >
+                    <option key={''} value={''}>
+                      -
+                    </option>
+                    {p.values.map((v, i) => (
+                      <option key={i} value={v}>
+                        {v}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
+
+        {JSON.stringify(productProperties)}
+
+        {/* Buttons */}
         <div className='flex gap-2 mt-3'>
           <button
             type='button'
