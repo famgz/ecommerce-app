@@ -3,7 +3,7 @@
 import {
   faPenToSquare,
   faPlus,
-  faTrash
+  faTrash,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
@@ -29,7 +29,17 @@ function CategoriesPage({ swal }) {
     setEditedCategory(null);
     setName('');
     setParentCategoryId('');
-    setProperties([])
+    setProperties([]);
+  }
+
+  // ensure properties values aren't empty
+  function parseProperties() {
+    return properties
+      .map(({ name, values }) => ({
+        name: name.trim(),
+        values: values.split(',').map(x => x.trim()).filter(Boolean)
+      }))
+      .filter(({ name, values }) => name && values.length > 0);
   }
 
   async function saveCategory(ev) {
@@ -49,8 +59,8 @@ function CategoriesPage({ swal }) {
     const data = {
       name,
       parentCategoryId,
-      properties
-    }
+      properties: parseProperties(),
+    };
 
     // create new category
     if (!editedCategory) {
@@ -70,7 +80,7 @@ function CategoriesPage({ swal }) {
 
       await axios.put('/api/categories', {
         _id: editedCategory._id,
-        ...data
+        ...data,
       });
     }
 
@@ -103,7 +113,10 @@ function CategoriesPage({ swal }) {
     setName(ct.name);
     setEditedCategory(ct);
     setParentCategoryId(ct.parent?._id || '');
-    setProperties(ct.properties || [])
+    setProperties(
+      // convert back to comma separated string
+      ct.properties.map(({ name, values }) => ({ name, values: values.join(', ') }))
+    );
   }
 
   function addProperty() {
@@ -186,7 +199,7 @@ function CategoriesPage({ swal }) {
                     onChange={(ev) =>
                       handlePropertyChange(index, ev.target.value, 'name')
                     }
-                    placeholder='property name (ex.: color, size)'
+                    placeholder='property name (ex.: color)'
                   />
                   <input
                     type='text'
@@ -209,15 +222,15 @@ function CategoriesPage({ swal }) {
 
           {/* Buttons */}
           <div className='flex gap-2 justify-center mt-5'>
-            <button type='submit' className='btn-primary w-full'>
-              Save
-            </button>
             <button
               onClick={resetEditStates}
               type='reset'
               className='btn-white w-full'
             >
               Clear
+            </button>
+            <button type='submit' className='btn-primary w-full'>
+              Save
             </button>
           </div>
         </div>
@@ -233,13 +246,10 @@ function CategoriesPage({ swal }) {
         </div>
         {categories?.length > 0 &&
           categories.map((ct) => (
-            <div
-              key={ct._id}
-              className='grid grid-cols-[4fr_1fr] w-full'
-            >
+            <div key={ct._id} className='grid grid-cols-[4fr_1fr] w-full'>
               <div className='grid grid-cols-2 line-below'>
                 {/* category name */}
-                <span className='flex-1 font-semibold'>{ct.name}</span>
+                <span className='font-semibold'>{ct.name}</span>
 
                 {/* category parent */}
                 <span className=''>{ct?.parent?.name || '-'}</span>
