@@ -6,9 +6,11 @@ import {
   faHouse,
   faLayerGroup,
   faList,
-  faShop
+  faRightFromBracket,
+  faShop,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { signOut } from 'next-auth/react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -78,6 +80,12 @@ export default function Nav() {
           <FontAwesomeIcon icon={faGear} className='h-5 w-5' />
           Settings
         </Link>
+
+        {/* Settings */}
+        <button className={inactiveLink} onClick={() => signOut()}>
+          <FontAwesomeIcon icon={faRightFromBracket} className='h-5 w-5' />
+          Logout
+        </button>
       </nav>
     </aside>
   );
