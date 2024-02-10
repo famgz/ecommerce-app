@@ -1,9 +1,11 @@
 import { mongooseConnect } from '@/libs/mongoose';
 import { getId } from '@/libs/utils';
 import { Category } from '@/models/Category';
+import { isAdmin } from '../auth/[...nextauth]/route';
 
 export async function GET() {
   await mongooseConnect();
+  await isAdmin();
   return Response.json(
     await Category.find()
       .populate('parent')
@@ -14,6 +16,7 @@ export async function GET() {
 
 export async function POST(req) {
   await mongooseConnect();
+  await isAdmin();
   const { name, parentCategoryId, properties } = await req.json();
   if (!name) {
     return Response.json('Invalid or empty category name');
@@ -28,6 +31,7 @@ export async function POST(req) {
 
 export async function PUT(req) {
   await mongooseConnect();
+  await isAdmin();
   const { _id, name, parentCategoryId, properties } = await req.json();
   if (!_id) {
     return Response.json('No category id to update');
@@ -42,6 +46,7 @@ export async function PUT(req) {
 
 export async function DELETE(req) {
   await mongooseConnect();
+  await isAdmin();
   const _id = getId(req);
   if (!_id) {
     return Response.json('No category id to update');
