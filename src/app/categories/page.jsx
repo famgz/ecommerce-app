@@ -50,8 +50,6 @@ function CategoriesPage({ swal }) {
   async function saveCategory(ev) {
     ev.preventDefault();
 
-    // TODO: parent/child checking needs a clearer naming refactor
-
     const desiredParentCategory = categories.find(
       (ct) => ct._id === parentCategoryId
     );
@@ -177,7 +175,8 @@ function CategoriesPage({ swal }) {
                 <option value=''>No parent category</option>
                 {categories?.length > 0 &&
                   categories.map((ct) => {
-                    if (ct.parent) {
+                    const isChildCategory = ct.parent;
+                    if (isChildCategory) {
                       return;
                     }
                     return (

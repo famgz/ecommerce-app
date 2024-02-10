@@ -39,7 +39,7 @@ select {
 }
 
 .btn {
-  @apply inline-flex items-center justify-center gap-1 py-1 px-4 text-sm rounded-full hover:shadow-md;
+  @apply inline-flex items-center justify-center gap-1 py-1 px-4 text-sm rounded-full hover:shadow-md cursor-pointer;
 }
 
 .btn-primary {

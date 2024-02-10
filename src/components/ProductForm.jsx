@@ -1,15 +1,16 @@
-/** @format */
-
 'use client';
 
-import { faArrowUpFromBracket } from '@fortawesome/free-solid-svg-icons';
+import {
+  faArrowUpFromBracket,
+  faXmark,
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { BeatLoader } from 'react-spinners';
 import { ReactSortable } from 'react-sortablejs';
+import { BeatLoader } from 'react-spinners';
 
 export default function ProductForm({ product }) {
   const [title, setTitle] = useState(product?.title || '');
@@ -18,7 +19,7 @@ export default function ProductForm({ product }) {
   const [images, setImages] = useState(product?.images || []);
   const [categoryId, setCategoryId] = useState(product?.category || '');
   const [productProperties, setProductProperties] = useState(
-    product.properties
+    product?.properties || {}
   );
   const [isUploading, setIsUploading] = useState(false);
   const [categories, setCategories] = useState([]);
@@ -28,15 +29,26 @@ export default function ProductForm({ product }) {
     axios.get('/api/categories').then((res) => setCategories(res.data));
   }, []);
 
+  // ensure only valid properties are being stored
+  function removeInvalidProductProps() {
+    const validKeys = propertiesToFill.map(({ name }) => name);
+    return Object.fromEntries(
+      Object.entries(productProperties).filter(([key]) =>
+        validKeys.includes(key)
+      )
+    );
+  }
+
   async function saveProduct(ev) {
     ev.preventDefault();
+
     const data = {
       title,
       description,
       price,
       images,
       category: categoryId,
-      properties: productProperties,
+      properties: removeInvalidProductProps(),
     };
 
     // update product
@@ -72,6 +84,10 @@ export default function ProductForm({ product }) {
     setIsUploading(false);
   }
 
+  function handleRemoveImage(imgUrl) {
+    setImages((prev) => prev.filter((x) => x !== imgUrl));
+  }
+
   const propertiesToFill = [];
   if (categories.length > 0 && categoryId) {
     // get category props
@@ -89,7 +105,7 @@ export default function ProductForm({ product }) {
     setProductProperties({}); // reset properties, so it won't have another category's props
   }
 
-  function changeProductProp(propName, value) {
+  function handleChangeProductProperties(propName, value) {
     value = value.trim();
     let newProps = { ...productProperties };
     // remove prop (empty value)
@@ -129,14 +145,22 @@ export default function ProductForm({ product }) {
               className='flex gap-2 flex-wrap'
             >
               {images?.length > 0 &&
-                images.map((link, index) => (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    key={index}
-                    src={link}
-                    alt='product image'
-                    className='h-24 w-auto border rounded-lg hover:shadow-md'
-                  />
+                images.map((imgUrl, index) => (
+                  <div key={index} className='relative h-24 w-24'>
+                    <Image
+                      src={`${imgUrl}`}
+                      alt='product image'
+                      fill
+                      className='border rounded-lg hover:shadow-md object-contain !cursor-move active:!cursor-move'
+                    />
+                    <button
+                      type='button'
+                      className='absolute top-1 right-1 btn-white !p-1 !border-none !text-gray-500'
+                      onClick={() => handleRemoveImage(imgUrl)}
+                    >
+                      <FontAwesomeIcon icon={faXmark} className='size-3' />
+                    </button>
+                  </div>
                 ))}
             </ReactSortable>
             {isUploading && (
@@ -216,7 +240,7 @@ export default function ProductForm({ product }) {
                   <select
                     value={productProperties[p.name]}
                     onChange={(ev) =>
-                      changeProductProp(p.name, ev.target.value)
+                      handleChangeProductProperties(p.name, ev.target.value)
                     }
                   >
                     <option key={''} value={''}>
@@ -234,10 +258,8 @@ export default function ProductForm({ product }) {
           )}
         </div>
 
-        {JSON.stringify(productProperties)}
-
         {/* Buttons */}
-        <div className='flex gap-2 mt-3'>
+        <div className='flex gap-2 mt-5 mb-3'>
           <button
             type='button'
             className='btn-white w-full'
