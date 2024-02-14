@@ -9,6 +9,7 @@ import {
   faLayerGroup,
   faList,
   faRightFromBracket,
+  faShop,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { signOut } from 'next-auth/react';
@@ -48,13 +49,13 @@ export default function Nav() {
         }
       >
         <div className='flex gap-2 mb-4 p-1 relative'>
-          {/* <FontAwesomeIcon icon={faShop} className='h-5 w-5' /> */}
+          <FontAwesomeIcon icon={faShop} className='size-5' />
           <span className='font-bold'>EcommerceAdmin</span>
 
           {/* Internal toggle button */}
           <button
             className=' absolute md:hidden right-0 z-50'
-            onClick={handleToggleNav}
+            onClick={() => setShowNav(false)}
           >
             <FontAwesomeIcon icon={faChevronLeft} className='size-5' />
           </button>
@@ -65,8 +66,9 @@ export default function Nav() {
           <Link
             href={'/'}
             className={pathname === '/' ? activeLink : inactiveLink}
+            onClick={() => setShowNav(false)}
           >
-            <FontAwesomeIcon icon={faHouse} className='h-5 w-5' />
+            <FontAwesomeIcon icon={faHouse} className='size-5' />
             Dashboard
           </Link>
 
@@ -76,8 +78,9 @@ export default function Nav() {
             className={
               pathname.startsWith('/products') ? activeLink : inactiveLink
             }
+            onClick={() => setShowNav(false)}
           >
-            <FontAwesomeIcon icon={faBoxArchive} className='h-5 w-5' />
+            <FontAwesomeIcon icon={faBoxArchive} className='size-5' />
             Products
           </Link>
 
@@ -87,8 +90,9 @@ export default function Nav() {
             className={
               pathname.startsWith('/categories') ? activeLink : inactiveLink
             }
+            onClick={() => setShowNav(false)}
           >
-            <FontAwesomeIcon icon={faLayerGroup} className='h-5 w-5' />
+            <FontAwesomeIcon icon={faLayerGroup} className='size-5' />
             Categories
           </Link>
 
@@ -98,8 +102,9 @@ export default function Nav() {
             className={
               pathname.startsWith('/orders') ? activeLink : inactiveLink
             }
+            onClick={() => setShowNav(false)}
           >
-            <FontAwesomeIcon icon={faList} className='h-5 w-5' />
+            <FontAwesomeIcon icon={faList} className='size-5' />
             Orders
           </Link>
 
@@ -109,14 +114,15 @@ export default function Nav() {
             className={
               pathname.startsWith('/settings') ? activeLink : inactiveLink
             }
+            onClick={() => setShowNav(false)}
           >
-            <FontAwesomeIcon icon={faGear} className='h-5 w-5' />
+            <FontAwesomeIcon icon={faGear} className='size-5' />
             Settings
           </Link>
 
           {/* Settings */}
           <button className={inactiveLink} onClick={() => signOut()}>
-            <FontAwesomeIcon icon={faRightFromBracket} className='h-5 w-5' />
+            <FontAwesomeIcon icon={faRightFromBracket} className='size-5' />
             Logout
           </button>
         </nav>

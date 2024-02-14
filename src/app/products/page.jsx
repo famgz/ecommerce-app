@@ -1,5 +1,3 @@
-/** @format */
-
 'use client';
 
 import DeleteButton from '@/components/DeleteButton';
