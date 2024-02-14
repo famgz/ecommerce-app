@@ -49,14 +49,15 @@ export default function ProductsPage() {
 
       {/* Products list */}
       <div className='flex flex-col gap-2 mt-5'>
-        <div className='grid grid-cols-[5fr_1fr] flex-1'>
+        <div className='grid grid-cols-[5fr_94px] flex-1'>
           <div className='grid grid-cols-2'>
             <span className='label'>Name</span>
             <span className='label'>Category</span>
           </div>
+          {/* <div className='w-[94px]'></div> */}
         </div>
         {products.map((p) => (
-          <div key={p._id} className='grid grid-cols-[5fr_1fr] w-full'>
+          <div key={p._id} className='grid grid-cols-[5fr_94px] w-full'>
             <div className='grid grid-cols-2 line-below'>
               {/* product name */}
               <span className='font-semibold'>{p.title}</span>

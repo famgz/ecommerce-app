@@ -5,11 +5,11 @@
 @tailwind utilities;
 
 h1 {
-  @apply text-blue-900 mb-2 font-bold text-xl;
+  @apply text-primary mb-2 font-bold text-xl;
 }
 
 .label {
-  @apply block text-blue-900 text-sm font-bold whitespace-nowrap;
+  @apply block text-blue-800 text-sm font-bold whitespace-nowrap;
 }
 
 input,
@@ -18,7 +18,7 @@ select {
   @apply border-2 border-gray-400 rounded-md px-1 w-full min-h-[28px];
 
   &:focus {
-    @apply border-blue-900 outline-none;
+    @apply border-primary outline-none;
   }
 }
 
@@ -31,11 +31,11 @@ select {
 }
 
 .bg-light {
-  @apply bg-gray-100 text-blue-900;
+  @apply bg-gray-100 text-gray-600;
 }
 
 .bg-dark {
-  @apply bg-blue-900 text-white;
+  @apply bg-primary text-white;
 }
 
 .btn {
@@ -47,7 +47,7 @@ select {
 }
 
 .btn-white {
-  /* @apply btn bg-light border border-blue-900 font-bold; */
+  /* @apply btn bg-light border border-primary font-bold; */
   @apply btn bg-light border border-gray-200 hover:border-gray-300 font-bold;
 }
 

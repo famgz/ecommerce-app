@@ -1,9 +1,9 @@
-import { Roboto } from 'next/font/google';
-import './globals.css';
 import Nav from '@/components/Nav';
 import LoginWithGoogle from '@/components/buttons/LoginWithGoogle';
 import { getServerSession } from 'next-auth';
+import { Roboto } from 'next/font/google';
 import { authOptions } from './api/auth/[...nextauth]/route';
+import './globals.css';
 
 const roboto = Roboto({
   subsets: ['latin'],
@@ -23,7 +23,7 @@ export default async function RootLayout({ children }) {
     return (
       <html lang='en'>
         <body className={roboto.className}>
-          <div className='flex items-center bg-blue-900 min-h-screen'>
+          <div className='flex items-center bg-primary min-h-screen'>
             <div className='text-center w-full'>
               <LoginWithGoogle />
             </div>
@@ -37,9 +37,9 @@ export default async function RootLayout({ children }) {
   return (
     <html lang='en'>
       <body className={roboto.className}>
-        <div className='bg-blue-900 text-white flex min-h-screen'>
+        <div className='bg-gray-200 text-gray-600 flex min-h-screen'>
           <Nav />
-          <main className='bg-white text-gray-700 flex-grow m-2 ml-0 rounded-lg p-4'>
+          <main className='bg-white text-gray-700 flex-grow m-2 md:ml-2 rounded-lg px-4 py-6 md:z-50'>
             {children}
           </main>
         </div>

@@ -259,26 +259,26 @@ function CategoriesPage({ swal }) {
       {/* Categories list */}
       <div className='flex flex-col gap-2 mt-7'>
         <div className='grid grid-cols-[5fr_1fr] flex-1'>
-          <div className='grid grid-cols-3'>
+          <div className='grid grid-cols-2 md:grid-cols-3 gap-1'>
             <span className='label'>Name</span>
             <span className='label'>Parent category</span>
-            <span className='label'>Properties</span>
+            <span className='label !hidden md:!block'>Properties</span>
           </div>
         </div>
         {categories?.length > 0 &&
           categories.map((ct) => (
             <div key={ct._id} className='grid grid-cols-[5fr_1fr] w-full'>
-              <div className='grid grid-cols-3 line-below'>
+              <div className='grid grid-cols-2 md:grid-cols-3 line-below gap-1'>
                 {/* name */}
-                <span className='font-semibold'>{ct.name}</span>
+                <span className='font-medium truncate'>{ct.name}</span>
 
                 {/* parent */}
-                <span className=''>{ct?.parent?.name || '-'}</span>
+                <span className='truncate'>{ct?.parent?.name || '-'}</span>
 
                 {/* properties */}
                 <span
                   title={ct.properties.map((p) => p.name).join()}
-                  className='truncate text-xs'
+                  className='truncate text-xs hidden md:block'
                 >
                   {ct.properties.length > 0
                     ? ct.properties.map((p) => p.name).join(', ')
