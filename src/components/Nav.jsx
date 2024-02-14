@@ -1,92 +1,126 @@
 'use client';
 
 import {
+  faBars,
   faBoxArchive,
+  faChevronLeft,
   faGear,
   faHouse,
   faLayerGroup,
   faList,
   faRightFromBracket,
-  faShop,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { signOut } from 'next-auth/react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useState } from 'react';
 
 export default function Nav() {
-  const inactiveLink = 'flex items-center gap-2 p-1';
+  const [showNav, setShowNav] = useState(false);
+
+  const inactiveLink = 'flex items-center gap-2 p-1 ';
   const activeLink =
     inactiveLink +
-    ' bg-white text-blue-900 rounded-l-full pl-4 -mr-4 -ml-3 font-bold';
+    `bg-white text-primary/90 rounded-full md:rounded-l-full md:rounded-r-none
+    pl-3 mr-4 md:-mr-6 -ml-2 font-bold shadow-md z-0`;
 
   const pathname = usePathname();
 
+  function handleToggleNav() {
+    setShowNav((prev) => !prev);
+  }
+
   return (
-    <aside className='p-4'>
-      <Link href='/' className='flex gap-2 mb-4 p-1'>
-        <FontAwesomeIcon icon={faShop} className='h-5 w-5' />
-        <span>EcommerceAdmin</span>
-      </Link>
+    <div>
+      {/* External toggle button */}
+      <button
+        className='absolute md:hidden left-6 top-6 z-20'
+        onClick={handleToggleNav}
+      >
+        <FontAwesomeIcon icon={faBars} className='size-5' />
+      </button>
 
-      <nav className='grid gap-2'>
-        {/* Dashboard */}
-        <Link
-          href={'/'}
-          className={pathname === '/' ? activeLink : inactiveLink}
-        >
-          <FontAwesomeIcon icon={faHouse} className='h-5 w-5' />
-          Dashboard
-        </Link>
+      <aside
+        className={
+          (showNav ? 'left-0 shadow-lg' : '-left-full') +
+          ' p-4 fixed md:static h-full w-[220px] bg-gray-200 duration-1000 z-20'
+        }
+      >
+        <div className='flex gap-2 mb-4 p-1 relative'>
+          {/* <FontAwesomeIcon icon={faShop} className='h-5 w-5' /> */}
+          <span className='font-bold'>EcommerceAdmin</span>
 
-        {/* Products */}
-        <Link
-          href={'/products'}
-          className={
-            pathname.startsWith('/products') ? activeLink : inactiveLink
-          }
-        >
-          <FontAwesomeIcon icon={faBoxArchive} className='h-5 w-5' />
-          Products
-        </Link>
+          {/* Internal toggle button */}
+          <button
+            className=' absolute md:hidden right-0 z-50'
+            onClick={handleToggleNav}
+          >
+            <FontAwesomeIcon icon={faChevronLeft} className='size-5' />
+          </button>
+        </div>
 
-        {/* Categories */}
-        <Link
-          href={'/categories'}
-          className={
-            pathname.startsWith('/categories') ? activeLink : inactiveLink
-          }
-        >
-          <FontAwesomeIcon icon={faLayerGroup} className='h-5 w-5' />
-          Categories
-        </Link>
+        <nav className='grid gap-2'>
+          {/* Dashboard */}
+          <Link
+            href={'/'}
+            className={pathname === '/' ? activeLink : inactiveLink}
+          >
+            <FontAwesomeIcon icon={faHouse} className='h-5 w-5' />
+            Dashboard
+          </Link>
 
-        {/* Orders */}
-        <Link
-          href={'/orders'}
-          className={pathname.startsWith('/orders') ? activeLink : inactiveLink}
-        >
-          <FontAwesomeIcon icon={faList} className='h-5 w-5' />
-          Orders
-        </Link>
+          {/* Products */}
+          <Link
+            href={'/products'}
+            className={
+              pathname.startsWith('/products') ? activeLink : inactiveLink
+            }
+          >
+            <FontAwesomeIcon icon={faBoxArchive} className='h-5 w-5' />
+            Products
+          </Link>
 
-        {/* Settings */}
-        <Link
-          href={'/settings'}
-          className={
-            pathname.startsWith('/settings') ? activeLink : inactiveLink
-          }
-        >
-          <FontAwesomeIcon icon={faGear} className='h-5 w-5' />
-          Settings
-        </Link>
+          {/* Categories */}
+          <Link
+            href={'/categories'}
+            className={
+              pathname.startsWith('/categories') ? activeLink : inactiveLink
+            }
+          >
+            <FontAwesomeIcon icon={faLayerGroup} className='h-5 w-5' />
+            Categories
+          </Link>
 
-        {/* Settings */}
-        <button className={inactiveLink} onClick={() => signOut()}>
-          <FontAwesomeIcon icon={faRightFromBracket} className='h-5 w-5' />
-          Logout
-        </button>
-      </nav>
-    </aside>
+          {/* Orders */}
+          <Link
+            href={'/orders'}
+            className={
+              pathname.startsWith('/orders') ? activeLink : inactiveLink
+            }
+          >
+            <FontAwesomeIcon icon={faList} className='h-5 w-5' />
+            Orders
+          </Link>
+
+          {/* Settings */}
+          <Link
+            href={'/settings'}
+            className={
+              pathname.startsWith('/settings') ? activeLink : inactiveLink
+            }
+          >
+            <FontAwesomeIcon icon={faGear} className='h-5 w-5' />
+            Settings
+          </Link>
+
+          {/* Settings */}
+          <button className={inactiveLink} onClick={() => signOut()}>
+            <FontAwesomeIcon icon={faRightFromBracket} className='h-5 w-5' />
+            Logout
+          </button>
+        </nav>
+      </aside>
+    </div>
   );
 }
