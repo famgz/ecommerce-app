@@ -125,6 +125,7 @@ function CategoriesPage({ swal }) {
         values: values.join(', '),
       }))
     );
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   function addProperty() {
