@@ -1,6 +1,6 @@
 'use client';
 
-import ProductForm from '@/components/ProductForm';
+import ProductForm from '@/app/(admin)/_components/ProductForm';
 import axios from 'axios';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -13,9 +13,7 @@ export default function EditProductPage() {
     if (!_id) {
       return;
     }
-    axios
-      .get('/api/products?_id=' + _id)
-      .then((res) => setProduct(res.data))
+    axios.get('/api/products?_id=' + _id).then((res) => setProduct(res.data));
   }, [_id]);
 
   return (

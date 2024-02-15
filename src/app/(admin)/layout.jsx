@@ -1,9 +1,9 @@
-import Nav from '@/components/Nav';
-import LoginWithGoogle from '@/components/buttons/LoginWithGoogle';
 import { getServerSession } from 'next-auth';
 import { Roboto } from 'next/font/google';
-import { authOptions } from './api/auth/[...nextauth]/route';
-import './globals.css';
+import '@/app/(admin)/globals.css';
+import LoginWithGoogle from '@/app/(admin)/_components/buttons/LoginWithGoogle';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import Nav from '@/app/(admin)/_components/Nav';
 
 const roboto = Roboto({
   subsets: ['latin'],
@@ -11,7 +11,7 @@ const roboto = Roboto({
 });
 
 export const metadata = {
-  title: 'E-Commerce App',
+  title: 'E-Commerce App Admin',
   description: 'E-Commerce App created with NextJS',
 };
 

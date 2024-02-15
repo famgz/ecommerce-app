@@ -1,8 +1,8 @@
 'use client';
 
-import ProductForm from '@/components/ProductForm';
+import ProductForm from '@/app/(admin)/_components/ProductForm';
 
-export default function NewProductPage(params) {
+export default function NewProductPage() {
   return (
     <div className='container'>
       <h1>New Product</h1>

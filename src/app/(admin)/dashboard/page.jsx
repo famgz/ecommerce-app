@@ -1,8 +1,8 @@
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { getServerSession } from 'next-auth';
 import Image from 'next/image';
-import { authOptions } from './api/auth/[...nextauth]/route';
 
-export default async function Home() {
+export default async function Dashboard() {
   const session = await getServerSession(authOptions);
   const user = session?.user;
 

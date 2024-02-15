@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  faBagShopping,
   faBars,
   faBoxArchive,
   faChevronLeft,
@@ -64,8 +65,10 @@ export default function Nav() {
         <nav className='grid gap-2'>
           {/* Dashboard */}
           <Link
-            href={'/'}
-            className={pathname === '/' ? activeLink : inactiveLink}
+            href={'/dashboard'}
+            className={
+              pathname.startsWith('/dashboard') ? activeLink : inactiveLink
+            }
             onClick={() => setShowNav(false)}
           >
             <FontAwesomeIcon icon={faHouse} className='size-5' />
@@ -120,7 +123,17 @@ export default function Nav() {
             Settings
           </Link>
 
-          {/* Settings */}
+          {/* Site page */}
+          <Link
+            href={'/'}
+            className={inactiveLink}
+            onClick={() => setShowNav(false)}
+          >
+            <FontAwesomeIcon icon={faBagShopping} className='size-5' />
+            Webpage
+          </Link>
+
+          {/* Logout */}
           <button className={inactiveLink} onClick={() => signOut()}>
             <FontAwesomeIcon icon={faRightFromBracket} className='size-5' />
             Logout

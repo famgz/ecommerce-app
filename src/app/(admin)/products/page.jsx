@@ -1,11 +1,11 @@
 'use client';
 
-import DeleteButton from '@/components/DeleteButton';
 import { faPenToSquare, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import DeleteButton from '@/app/(admin)/_components/DeleteButton';
 
 export default function ProductsPage() {
   const [products, setProducts] = useState([]);

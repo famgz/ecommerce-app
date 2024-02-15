@@ -1,7 +1,7 @@
-import { mongooseConnect } from '@/libs/mongoose';
-import { getId } from '@/libs/utils';
-import { Product } from '@/models/Product';
-import { isAdmin } from '../auth/[...nextauth]/route';
+import { mongooseConnect } from '@/app/(admin)/_libs/mongoose';
+import { getId } from '@/app/(admin)/_libs/utils';
+import { Product } from '@/app/(admin)/_models/Product';
+import { isAdmin } from '@/app/api/auth/[...nextauth]/route';
 
 export async function GET(req) {
   await mongooseConnect();
