@@ -1,9 +1,11 @@
+import HeaderCartLink from '@/app/(front)/_components/HeaderCartLink';
+import LoginWithGoogle from '@/app/(front)/_components/buttons/LoginWithGoogle';
+import LogOutButton from '@/app/(front)/_components/buttons/LogoutButton';
+import { authOptions, isAdmin } from '@/app/api/auth/[...nextauth]/route';
+import { faBagShopping } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { getServerSession } from 'next-auth';
 import Link from 'next/link';
-import { authOptions, isAdmin } from '@/app/api/auth/[...nextauth]/route';
-import LoginWithGoogle from '@/app/(front)/_components/buttons/LoginWithGoogle';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBagShopping } from '@fortawesome/free-solid-svg-icons';
 
 export default async function Header() {
   const session = await getServerSession(authOptions);
@@ -21,15 +23,10 @@ export default async function Header() {
           <Link href='/products'>All products</Link>
           <Link href='/categories'>Categories</Link>
           <Link href='/account'>Account</Link>
-          <Link href='/cart'>Cart (0)</Link>
-          {!user && (await isAdmin()) ? (
-            <div>
-              <LoginWithGoogle />
-            </div>
-          ) : (
-            <div>
-              <Link href='/dashboard'>Dashboard</Link>
-            </div>
+          <HeaderCartLink />
+          {user ? <LogOutButton /> : <LoginWithGoogle />}
+          {user && (await isAdmin()) && (
+            <Link href='/dashboard'>Dashboard</Link>
           )}
         </nav>
       </div>

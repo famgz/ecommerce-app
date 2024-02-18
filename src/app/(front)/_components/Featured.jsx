@@ -1,0 +1,32 @@
+import AddToCartButton from '@/app/(front)/_components/buttons/AddToCartButton';
+import Image from 'next/image';
+import Link from 'next/link';
+
+export default function FeaturedProduct({ product }) {
+  return (
+    <div className='bg-zinc-800 text-white py-12'>
+      <div className='container grid grid-cols-[.8fr_1.2fr] gap-2'>
+        <div className='flex flex-col gap-5 justify-center'>
+          <h1 className='text-5xl'>{product.title}</h1>
+          <p className='text-sm text-gray-500 font-semibold'>
+            {product.description}
+          </p>
+          <div className='flex gap-2'>
+            <Link href='/' className='btn-trans '>
+              Read more
+            </Link>
+            <AddToCartButton product={product} />
+          </div>
+        </div>
+        <div className='relative min-h-[300px]'>
+          <Image
+            src='https://ifixindia.in/wp-content/uploads/2018/09/macbook-air-png-transparent-background-6.png'
+            alt='image'
+            fill
+            className='object-contain'
+          />
+        </div>
+      </div>
+    </div>
+  );
+}

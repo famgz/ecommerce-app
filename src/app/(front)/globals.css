@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.container {
+  @apply max-w-4xl mx-auto;
+}
+
+.btn {
+  @apply inline-flex items-center gap-2 py-1 px-3 rounded-md border-none cursor-pointer;
+}
+
+.btn-white {
+  @apply btn bg-white text-gray-800 font-semibold;
+}
+
+.btn-trans {
+  @apply btn bg-transparent text-white font-normal border !border-solid border-white;
+}
+
+.btn-primary {
+  @apply btn bg-primary text-white;
+}
+
+.btn-lg {
+  @apply text-xl py-2 px-5;
+}

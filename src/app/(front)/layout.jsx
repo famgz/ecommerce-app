@@ -1,3 +1,4 @@
+import { CartContextProvider } from '@/app/(front)/_components/CartContext';
 import Header from '@/app/(front)/_components/Header';
 import '@/app/(front)/globals.css';
 import { Roboto } from 'next/font/google';
@@ -15,10 +16,12 @@ export const metadata = {
 export default async function RootLayout({ children }) {
   return (
     <html lang='en'>
-      <body className={roboto.className}>
+      <body className={roboto.className + ' bg-zinc-200'}>
         <div>
-          <Header />
-          {children}
+          <CartContextProvider>
+            <Header />
+            {children}
+          </CartContextProvider>
         </div>
       </body>
     </html>
