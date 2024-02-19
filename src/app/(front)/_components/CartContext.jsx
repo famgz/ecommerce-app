@@ -5,7 +5,7 @@ import { createContext, useEffect, useState } from 'react';
 export const CartContext = createContext({});
 
 export function CartContextProvider({ children }) {
-  const [cartProducts, setCartProducts] = useState([]);
+  const [cartProductsIds, setCartProductsIds] = useState([]);
 
   // get localStorage cart items on load
   useEffect(() => {
@@ -13,18 +13,23 @@ export function CartContextProvider({ children }) {
     if (savedProducts?.length === 0) {
       return;
     }
-    setCartProducts(savedProducts);
+    setCartProductsIds(savedProducts);
   }, []);
 
   // update localStorage cart items on change
   useEffect(() => {
-    if (cartProducts?.length > 0) {
-      localStorage.setItem('cart', JSON.stringify(cartProducts));
+    if (cartProductsIds?.length > 0) {
+      localStorage.setItem('cart', JSON.stringify(cartProductsIds));
     }
-  }, [cartProducts]);
+  }, [cartProductsIds]);
 
   return (
-    <CartContext.Provider value={{ cartProducts, setCartProducts }}>
+    <CartContext.Provider
+      value={{
+        cartProductsIds,
+        setCartProductsIds,
+      }}
+    >
       {children}
     </CartContext.Provider>
   );

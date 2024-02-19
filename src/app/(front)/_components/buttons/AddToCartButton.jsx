@@ -6,10 +6,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useContext } from 'react';
 
 export default function AddToCartButton({ product, showText = true }) {
-  const { cartProducts, setCartProducts } = useContext(CartContext);
+  const { cartProductsIds, setCartProductsIds } = useContext(CartContext);
 
   function handleAddToCart() {
-    setCartProducts((prev) => [...prev, product]);
+    setCartProductsIds((prev) => [...prev, product._id]);
   }
 
   return (
