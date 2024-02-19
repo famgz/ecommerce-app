@@ -8,16 +8,15 @@ export default function ProductBox({ product }) {
 
   return (
     <div className='min-w-0'>
-      <div className='gap-2 bg-white p-5 rounded-md shadow-md'>
-        <Link
-          href={url}
-          className='block relative w-full h-[150px]'
-          title={description}
-        >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
+      <Link
+        href={url}
+        title={description}
+        className='block gap-2 bg-white p-5 rounded-md shadow-md'
+      >
+        <div className='relative w-full h-[150px]'>
           <Image src={images?.[0]} alt='' fill className='object-contain' />
-        </Link>
-      </div>
+        </div>
+      </Link>
       <h2 className='font-bold truncate' title={title}>
         {title}
       </h2>
