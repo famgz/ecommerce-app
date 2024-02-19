@@ -20,7 +20,7 @@ export default function FeaturedProduct({ product }) {
         </div>
         <div className='relative min-h-[300px]'>
           <Image
-            src='https://ifixindia.in/wp-content/uploads/2018/09/macbook-air-png-transparent-background-6.png'
+            src={product.images[0]}
             alt='image'
             fill
             className='object-contain'
