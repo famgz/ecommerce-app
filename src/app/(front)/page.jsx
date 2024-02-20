@@ -1,6 +1,6 @@
 import { mongooseConnect } from '@/app/(admin)/_libs/mongoose';
 import { Product } from '@/app/(admin)/_models/Product';
-import FeaturedProduct from '@/app/(front)/_components/Featured';
+import FeaturedProduct from '@/app/(front)/_components/FeaturedProduct';
 import NewProducts from '@/app/(front)/_components/NewProducts';
 
 export async function getAllProducts() {

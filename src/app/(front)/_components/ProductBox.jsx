@@ -17,9 +17,9 @@ export default function ProductBox({ product }) {
           <Image src={images?.[0]} alt='' fill className='object-contain' />
         </div>
       </Link>
-      <h2 className='font-bold truncate' title={title}>
+      <h3 className='font-bold truncate' title={title}>
         {title}
-      </h2>
+      </h3>
       <div className='flex justify-between items-center'>
         <span className='text-2xl font-extrabold'>R$ {price}</span>
         <AddToCartButton product={product} test={false} showText={false} />
