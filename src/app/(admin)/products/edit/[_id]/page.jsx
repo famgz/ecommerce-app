@@ -17,7 +17,7 @@ export default function EditProductPage() {
   }, [_id]);
 
   return (
-    <div className='container'>
+    <div className='_container'>
       <h1>Edit Product</h1>
       {product && <ProductForm product={product} />}
     </div>

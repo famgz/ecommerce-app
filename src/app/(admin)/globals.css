@@ -20,7 +20,7 @@ select {
   }
 }
 
-.container {
+._container {
   @apply max-w-2xl mx-auto;
 
   & h1 {

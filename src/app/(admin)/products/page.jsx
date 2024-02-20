@@ -36,7 +36,7 @@ export default function ProductsPage() {
   }
 
   return (
-    <div className='container grid gap-4'>
+    <div className='_container grid gap-4'>
       <h1>Products</h1>
 
       {/* Add product button */}

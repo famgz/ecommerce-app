@@ -2,12 +2,28 @@
 @tailwind components;
 @tailwind utilities;
 
-.container {
-  @apply max-w-4xl mx-auto;
+._container {
+  @apply max-w-5xl mx-auto px-4;
+}
+
+h2 {
+  @apply text-xl font-bold;
+}
+
+input {
+  @apply border p-1 px-2 w-full rounded-md text-sm;
+}
+
+label {
+  @apply w-full;
+
+  span {
+    @apply text-[.7rem] ml-1 text-gray-700 font-bold uppercase;
+  }
 }
 
 .btn {
-  @apply inline-flex items-center gap-2 py-1 px-3 rounded-md border-none cursor-pointer;
+  @apply inline-flex items-center justify-center text-center gap-2 py-1 px-3 rounded-md border-none cursor-pointer;
 }
 
 .btn-white {
@@ -24,4 +40,35 @@
 
 .btn-lg {
   @apply text-xl py-2 px-5;
+}
+
+.line-bottom {
+  @apply border-b border-solid border-gray-200;
+}
+
+.line-top {
+  @apply border-t border-solid border-gray-200;
+}
+
+.table {
+  @apply border-collapse;
+
+  tr {
+    @apply line-bottom;
+  }
+  th {
+    @apply py-2;
+  }
+  td {
+    @apply px-1 py-4;
+  }
+  tfoot {
+    tr {
+      @apply border-none;
+    }
+    th,
+    td {
+      @apply border-none py-6 pb-0;
+    }
+  }
 }

@@ -13,7 +13,7 @@ export default async function Header() {
 
   return (
     <header className=' bg-zinc-800 text-white'>
-      <div className='container flex justify-between py-4 max-w-4xl'>
+      <div className='_container flex justify-between py-4 max-w-4xl'>
         <Link href='/' className='flex gap-2'>
           <FontAwesomeIcon icon={faBagShopping} className='size-5' />
           Ecommerce

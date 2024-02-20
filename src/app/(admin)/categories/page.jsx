@@ -143,7 +143,7 @@ function CategoriesPage({ swal }) {
   }
 
   return (
-    <div className='container'>
+    <div className='_container'>
       <h1>Categories</h1>
 
       {/* Create/update category */}
