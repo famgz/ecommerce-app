@@ -7,11 +7,7 @@ export async function GET(req) {
   await mongooseConnect();
   await isAdmin();
   let _id = getId(req);
-  // check if params is an array of ids
-  try {
-    _id = JSON.parse(_id);
-  } catch (err) {}
-  const data = _id ? await Product.find({ _id }) : await Product.find();
+  const data = _id ? await Product.findById(_id) : await Product.find();
   return Response.json(data);
 }
 
