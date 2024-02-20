@@ -5,7 +5,7 @@ import Link from 'next/link';
 export default function FeaturedProduct({ product }) {
   return (
     <div className='bg-zinc-800 text-white py-12'>
-      <div className='container grid grid-cols-[.8fr_1.2fr] gap-2'>
+      <div className='_container grid grid-cols-[.8fr_1.2fr] gap-2'>
         <div className='flex flex-col gap-5 justify-center'>
           <h1 className='text-5xl'>{product.title}</h1>
           <p className='text-sm text-gray-500 font-semibold'>

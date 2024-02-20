@@ -7,5 +7,9 @@ import { useContext } from 'react';
 export default function HeaderCartLink() {
   const { cartProductsIds } = useContext(CartContext);
 
-  return <Link href='/cart'>Cart ({cartProductsIds.length})</Link>;
+  return (
+    <Link href='/cart'>
+      Cart ({cartProductsIds ? cartProductsIds.length : 0})
+    </Link>
+  );
 }
