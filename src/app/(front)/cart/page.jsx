@@ -4,11 +4,12 @@ import { CartContext } from '@/app/(front)/_components/CartContext';
 import CartProductsTable from '@/app/(front)/_components/CartProductsTable';
 import { parseCheckoutForm } from '@/app/_libs/utils';
 import axios from 'axios';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useContext, useEffect, useState } from 'react';
 
 export default function CartPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const cartContext = useContext(CartContext);
   const { cartProductsIds } = cartContext;
   const [fetchedApiProducts, setFetchedApiProducts] = useState(false);
@@ -107,11 +108,22 @@ export default function CartPage() {
     }
   }
 
+  if (searchParams.get('success') === '1') {
+    return (
+      <div className='white-box text-center max-w-lg mx-auto text-gray-800'>
+        <h1 className='mb-5'>Thanks for your order!</h1>
+        <p className='text-lg'>
+          We will email you when your order will be sent.
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div className='_container my-10'>
       <div className='flex flex-col md:flex-row gap-10'>
         {/* CART ITEMS */}
-        <div className='bg-white  min-w-[60%] rounded-md p-6'>
+        <div className='min-w-[60%] white-box'>
           <h2 className='mb-4'>Cart</h2>
           <div>
             {products?.length === 0 ? (
@@ -128,7 +140,7 @@ export default function CartPage() {
 
         {/* CHECKOUT */}
         {products?.length > 0 && (
-          <div className='flex flex-col gap-4 bg-white rounded-md p-6 h-fit'>
+          <div className='flex flex-col gap-4 white-box h-fit'>
             <form onSubmit={handleFormSubmit}>
               <div className='flex flex-col gap-1'>
                 <h2 className='mb-4'>Order information</h2>
@@ -195,7 +207,7 @@ export default function CartPage() {
                   />
                 </label>
               </div>
-              <button type='submit' className=' btn-primary w-full mt-3'>
+              <button type='submit' className='btn-primary w-full mt-6'>
                 Continue to payment
               </button>
             </form>
