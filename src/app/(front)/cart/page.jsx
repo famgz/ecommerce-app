@@ -2,10 +2,13 @@
 
 import { CartContext } from '@/app/(front)/_components/CartContext';
 import CartProductsTable from '@/app/(front)/_components/CartProductsTable';
+import { parseCheckoutForm } from '@/app/_libs/utils';
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
 import { useContext, useEffect, useState } from 'react';
 
 export default function CartPage() {
+  const router = useRouter();
   const cartContext = useContext(CartContext);
   const { cartProductsIds } = cartContext;
   const [fetchedApiProducts, setFetchedApiProducts] = useState(false);
@@ -19,20 +22,10 @@ export default function CartPage() {
     country: '',
   });
 
-  function handleFormChange(ev) {
-    setForm((prev) => ({
-      ...prev,
-      [ev.target.name]: ev.target.value,
-    }));
-  }
-
-  function getProductsQuantity(_id) {
-    return cartProductsIds.filter((pId) => pId === _id).length;
-  }
-
-  useEffect(() => {
-    console.log({ form });
-  }, [form]);
+  let total = 0;
+  products.forEach((p) => {
+    total += p.price * p.quantity;
+  });
 
   // get cartProducts information
   useEffect(() => {
@@ -80,11 +73,45 @@ export default function CartPage() {
     console.log({ products });
   }, [products]);
 
+  function handleFormChange(ev) {
+    setForm((prev) => ({
+      ...prev,
+      [ev.target.name]: ev.target.value,
+    }));
+  }
+
+  function getProductsQuantity(_id) {
+    return cartProductsIds.filter((pId) => pId === _id).length;
+  }
+
+  async function handleFormSubmit(ev) {
+    ev.preventDefault();
+
+    const parsedForm = parseCheckoutForm(form, cartProductsIds);
+
+    if (!parsedForm) {
+      console.error('Invalid form');
+      return;
+    }
+
+    const res = await axios.post('/api/checkout', {
+      form,
+      cartProductsIds,
+    });
+
+    const paymentUrl = res?.data?.url;
+
+    if (paymentUrl) {
+      // window.location = paymentUrl;
+      router.push(paymentUrl);
+    }
+  }
+
   return (
     <div className='_container my-10'>
-      <div className='flex flex-col lg:flex-row gap-10'>
+      <div className='flex flex-col md:flex-row gap-10'>
         {/* CART ITEMS */}
-        <div className='bg-white rounded-md p-6'>
+        <div className='bg-white  min-w-[60%] rounded-md p-6'>
           <h2 className='mb-4'>Cart</h2>
           <div>
             {products?.length === 0 ? (
@@ -93,6 +120,7 @@ export default function CartPage() {
               <CartProductsTable
                 products={products}
                 cartContext={cartContext}
+                total={total}
               />
             )}
           </div>
@@ -101,74 +129,76 @@ export default function CartPage() {
         {/* CHECKOUT */}
         {products?.length > 0 && (
           <div className='flex flex-col gap-4 bg-white rounded-md p-6 h-fit'>
-            <div className='flex flex-col gap-1'>
-              <h2 className='mb-4'>Order information</h2>
-              <label>
-                <span>Name</span>
-                <input
-                  required
-                  onChange={handleFormChange}
-                  type='text'
-                  name='name'
-                  placeholder='Name'
-                />
-              </label>
-              <label>
-                <span>Email</span>
-                <input
-                  required
-                  onChange={handleFormChange}
-                  type='email'
-                  name='email'
-                  placeholder='Email'
-                />
-              </label>
-              <div className='flex gap-1 w-full'>
+            <form onSubmit={handleFormSubmit}>
+              <div className='flex flex-col gap-1'>
+                <h2 className='mb-4'>Order information</h2>
                 <label>
-                  <span>City</span>
+                  <span>Name</span>
                   <input
                     required
                     onChange={handleFormChange}
                     type='text'
-                    name='city'
-                    placeholder='City'
+                    name='name'
+                    placeholder='Name'
                   />
                 </label>
                 <label>
-                  <span>Postal code</span>
+                  <span>Email</span>
+                  <input
+                    required
+                    onChange={handleFormChange}
+                    type='email'
+                    name='email'
+                    placeholder='Email'
+                  />
+                </label>
+                <div className='flex gap-1 w-full'>
+                  <label>
+                    <span>City</span>
+                    <input
+                      required
+                      onChange={handleFormChange}
+                      type='text'
+                      name='city'
+                      placeholder='City'
+                    />
+                  </label>
+                  <label>
+                    <span>Postal code</span>
+                    <input
+                      required
+                      onChange={handleFormChange}
+                      type='text'
+                      name='postalCode'
+                      placeholder='Postal code'
+                    />
+                  </label>
+                </div>
+                <label>
+                  <span>Street address</span>
                   <input
                     required
                     onChange={handleFormChange}
                     type='text'
-                    name='postalCode'
-                    placeholder='Postal code'
+                    name='streetAddress'
+                    placeholder='Street address'
+                  />
+                </label>
+                <label>
+                  <span>Country</span>
+                  <input
+                    required
+                    onChange={handleFormChange}
+                    type='text'
+                    name='country'
+                    placeholder='Country'
                   />
                 </label>
               </div>
-              <label>
-                <span>Street address</span>
-                <input
-                  required
-                  onChange={handleFormChange}
-                  type='text'
-                  name='streetAddress'
-                  placeholder='Street address'
-                />
-              </label>
-              <label>
-                <span>Country</span>
-                <input
-                  required
-                  onChange={handleFormChange}
-                  type='text'
-                  name='country'
-                  placeholder='Country'
-                />
-              </label>
-            </div>
-            <button type='submit' className='btn-primary w-full mt-3'>
-              Continue to payment
-            </button>
+              <button type='submit' className=' btn-primary w-full mt-3'>
+                Continue to payment
+              </button>
+            </form>
           </div>
         )}
       </div>
