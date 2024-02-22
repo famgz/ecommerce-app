@@ -2,6 +2,7 @@ import { mongooseConnect } from '@/app/(admin)/_libs/mongoose';
 import { Product } from '@/app/(admin)/_models/Product';
 import FeaturedProduct from '@/app/(front)/_components/FeaturedProduct';
 import NewProducts from '@/app/(front)/_components/NewProducts';
+import { convertToPlainObject } from '@/app/_libs/utils';
 
 export async function getAllProducts() {
   await mongooseConnect();
@@ -10,7 +11,7 @@ export async function getAllProducts() {
 
 export default async function HomePage() {
   const rawProducts = await getAllProducts();
-  const allProducts = JSON.parse(JSON.stringify(rawProducts));
+  const allProducts = convertToPlainObject(rawProducts);
   const featuredProduct = allProducts.find(
     (p) => p._id === '65d2425410dec5df9236f3c6'
   );
