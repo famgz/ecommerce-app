@@ -10,8 +10,10 @@ import { useContext, useEffect, useState } from 'react';
 export default function CartPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const params = Object.fromEntries(searchParams);
+  const [isSuccess, setIsSuccess] = useState(false);
   const cartContext = useContext(CartContext);
-  const { cartProductsIds } = cartContext;
+  const { cartProductsIds, clearCart } = cartContext;
   const [fetchedApiProducts, setFetchedApiProducts] = useState(false);
   const [products, setProducts] = useState([]);
   const [form, setForm] = useState({
@@ -27,6 +29,17 @@ export default function CartPage() {
   products.forEach((p) => {
     total += p.price * p.quantity;
   });
+
+  // clear cart if successful payment
+  useEffect(() => {
+    if (params?.success === '1') {
+      setIsSuccess(true);
+
+      if (cartProductsIds?.length > 0) {
+        clearCart();
+      }
+    }
+  }, [params?.success, cartProductsIds]);
 
   // get cartProducts information
   useEffect(() => {
@@ -68,6 +81,7 @@ export default function CartPage() {
     } else {
       setProducts([]);
     }
+    console.log({ cartProductsIds });
   }, [cartProductsIds]);
 
   useEffect(() => {
@@ -103,12 +117,11 @@ export default function CartPage() {
     const paymentUrl = res?.data?.url;
 
     if (paymentUrl) {
-      // window.location = paymentUrl;
       router.push(paymentUrl);
     }
   }
 
-  if (searchParams.get('success') === '1') {
+  if (isSuccess) {
     return (
       <div className='white-box text-center max-w-lg mx-auto text-gray-800'>
         <h1 className='mb-5'>Thanks for your order!</h1>
@@ -207,7 +220,7 @@ export default function CartPage() {
                   />
                 </label>
               </div>
-              <button type='submit' className='btn-primary w-full mt-6'>
+              <button type='submit' className='btn-primary text-xs w-full mt-6'>
                 Continue to payment
               </button>
             </form>

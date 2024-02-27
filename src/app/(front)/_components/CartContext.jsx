@@ -7,18 +7,18 @@ export const CartContext = createContext({});
 export function CartContextProvider({ children }) {
   const [cartProductsIds, setCartProductsIds] = useState(null);
 
-  // update localStorage cart items on change
-  useEffect(() => {
-    if (cartProductsIds?.length > 0) {
-      localStorage.setItem('cart', JSON.stringify(cartProductsIds));
-    }
-  }, [cartProductsIds]);
-
   // get localStorage cart items on load
   useEffect(() => {
     const savedProducts = JSON.parse(localStorage.getItem('cart')) || [];
     setCartProductsIds(savedProducts);
   }, []);
+
+  // update localStorage cart items on change
+  useEffect(() => {
+    if (Array.isArray(cartProductsIds)) {
+      localStorage.setItem('cart', JSON.stringify(cartProductsIds));
+    }
+  }, [cartProductsIds]);
 
   function addProduct(productId) {
     setCartProductsIds((prev) => [...prev, productId]);
@@ -38,6 +38,11 @@ export function CartContextProvider({ children }) {
     setCartProductsIds((prev) => prev.filter((pId) => pId !== productId));
   }
 
+  function clearCart() {
+    console.log('clearing cart');
+    setCartProductsIds([]);
+  }
+
   return (
     <CartContext.Provider
       value={{
@@ -46,6 +51,7 @@ export function CartContextProvider({ children }) {
         addProduct,
         removeProduct,
         removeAllOfProductId,
+        clearCart,
       }}
     >
       {children}

@@ -1,3 +1,4 @@
+import { formatToReal } from '@/app/_libs/utils';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Image from 'next/image';
@@ -24,7 +25,7 @@ export default function CartProductsTable({ products, cartContext, total }) {
     <table className='table w-full border-spacing-y-3'>
       <thead>
         <tr className='text-gray-700'>
-          <th className='text-left !pl-0'>PRODUCT</th>
+          <th className=''>PRODUCT</th>
           <th className=''>PRICE</th>
           <th>QUANTITY</th>
           <th>TOTAL</th>
@@ -79,7 +80,7 @@ export default function CartProductsTable({ products, cartContext, total }) {
             {/* TOTAL PRICE */}
             <td>
               <span className='font-bold text-xl '>
-                R${p.price * p.quantity}
+                {formatToReal(p.price * p.quantity)}
               </span>
             </td>
 
@@ -104,7 +105,7 @@ export default function CartProductsTable({ products, cartContext, total }) {
         <tr>
           <th className='text-left text-xl'>TOTAL</th>
           <td colSpan={3} className='font-bold text-xl text-right'>
-            R${total}
+            {formatToReal(total)}
           </td>
           <td className='!pr-0'>
             <button

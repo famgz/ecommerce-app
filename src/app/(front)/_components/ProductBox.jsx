@@ -1,4 +1,5 @@
 import AddToCartButton from '@/app/(front)/_components/buttons/AddToCartButton';
+import { formatToReal } from '@/app/_libs/utils';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -21,7 +22,7 @@ export default function ProductBox({ product }) {
         {title}
       </h3>
       <div className='flex justify-between items-center'>
-        <span className='text-2xl font-extrabold'>R$ {price}</span>
+        <span className='text-2xl font-extrabold'>{formatToReal(price)}</span>
         <AddToCartButton product={product} test={false} showText={false} />
       </div>
     </div>
