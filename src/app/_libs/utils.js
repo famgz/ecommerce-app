@@ -2,6 +2,25 @@ export function convertToPlainObject(obj) {
   return JSON.parse(JSON.stringify(obj));
 }
 
+export function clampId(id) {
+  return id.slice(0, 4) + '...' + id.slice(-4);
+}
+
+export function copyToClipboard(string) {
+  navigator.clipboard.writeText(string);
+}
+
+export function formatToReal(n) {
+  n = Number(n);
+  if (isNaN(n)) {
+    return '-';
+  }
+  return Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+  }).format(n);
+}
+
 export function parseCheckoutForm(form) {
   if (!form || Object.keys(form).length === 0) {
     return false;
