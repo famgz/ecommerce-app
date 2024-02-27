@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+._container {
+  @apply max-w-5xl mx-auto px-4;
+}
+
+.white-box {
+  @apply bg-white rounded-md p-6 mt-5 text-gray-800;
+}
+
+h1 {
+  @apply !text-4xl !font-bold;
+}
+
+h2 {
+  @apply !text-2xl !font-bold;
+}
+
+input {
+  @apply border !py-1 !px-2 w-full rounded-md !text-sm;
+}
+
+label {
+  @apply w-full;
+
+  span {
+    @apply text-[.7rem] ml-1 text-gray-700 font-bold uppercase;
+  }
+}

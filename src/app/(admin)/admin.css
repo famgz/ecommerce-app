@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+h1 {
+  @apply text-primary mb-2 font-bold text-xl;
+}
+
+._container {
+  @apply max-w-2xl mx-auto;
+
+  h1 {
+    @apply text-primary text-center text-2xl font-bold;
+  }
+}
+
+.label {
+  @apply block text-blue-800 text-sm font-bold whitespace-nowrap;
+}
+
+input,
+textarea,
+select {
+  @apply border-2 border-gray-400 rounded-md !px-1 w-full min-h-[28px];
+
+  &:focus {
+    @apply border-primary outline-none;
+  }
+}
+
+table.basic {
+  @apply w-full;
+
+  & th {
+    @apply bg-blue-100;
+  }
+
+  & td,
+  th {
+    @apply border border-blue-200 p-1;
+  }
+}
+
+.line-below {
+  @apply border-b border-solid border-gray-200;
+}
+
+.btn {
+  @apply text-sm;
+}
+
+.table {
+  th {
+    @apply label !table-cell text-left;
+  }
+}

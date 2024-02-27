@@ -1,0 +1,82 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.line-bottom {
+  @apply border-b border-solid border-gray-200;
+}
+
+.line-top {
+  @apply border-t border-solid border-gray-200;
+}
+
+.table {
+  @apply border-collapse;
+
+  tr {
+    @apply line-bottom;
+    td:first-child,
+    th:first-child {
+      @apply text-left pl-0;
+    }
+  }
+
+  th,
+  td {
+    @apply px-2;
+  }
+
+  th {
+    @apply py-2 uppercase;
+  }
+
+  td {
+    @apply py-4;
+  }
+
+  tbody tr {
+    @apply hover:bg-gray-50;
+
+    td:first-child {
+      @apply font-semibold;
+    }
+  }
+
+  tfoot {
+    tr {
+      @apply border-none;
+    }
+    th,
+    td {
+      @apply border-none py-6 pb-0;
+    }
+  }
+}
+
+.bg-light {
+  @apply bg-gray-100 text-gray-600;
+}
+
+.bg-dark {
+  @apply bg-primary text-white;
+}
+
+.btn {
+  @apply inline-flex items-center justify-center gap-1 py-1 px-4 rounded-full hover:shadow-md cursor-pointer;
+}
+
+.btn-primary {
+  @apply btn bg-dark hover:brightness-125;
+}
+
+.btn-white {
+  @apply btn bg-light border border-gray-200 hover:border-gray-300 font-bold;
+}
+
+.btn-trans {
+  @apply btn bg-transparent text-white font-normal border !border-solid border-white;
+}
+
+.btn-lg {
+  @apply text-xl py-2 px-5;
+}

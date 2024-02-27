@@ -1,6 +1,7 @@
 import { CartContextProvider } from '@/app/(front)/_components/CartContext';
 import Header from '@/app/(front)/_components/Header';
-import '@/app/(front)/globals.css';
+import '@/app/(front)/front.css';
+import '@/app/globals.css';
 import { Roboto } from 'next/font/google';
 
 const roboto = Roboto({

@@ -1,6 +1,7 @@
 import { getServerSession } from 'next-auth';
 import { Roboto } from 'next/font/google';
-import '@/app/(admin)/globals.css';
+import '@/app/(admin)/admin.css';
+import '@/app/globals.css';
 import LoginWithGoogle from '@/app/(admin)/_components/buttons/LoginWithGoogle';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import Nav from '@/app/(admin)/_components/Nav';
