@@ -25,7 +25,7 @@ export default function Nav() {
   const activeLink =
     inactiveLink +
     `bg-white text-primary/90 rounded-full md:rounded-l-full md:rounded-r-none
-    pl-3 mr-4 md:-mr-6 -ml-2 font-bold shadow-md z-0`;
+    pl-3 mr-4 md:-mr-8 -ml-2 font-bold shadow-md z-0`;
 
   const pathname = usePathname();
 
