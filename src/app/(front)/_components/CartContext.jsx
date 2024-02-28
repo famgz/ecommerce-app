@@ -39,7 +39,6 @@ export function CartContextProvider({ children }) {
   }
 
   function clearCart() {
-    console.log('clearing cart');
     setCartProductsIds([]);
   }
 
