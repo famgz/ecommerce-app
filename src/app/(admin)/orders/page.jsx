@@ -11,7 +11,7 @@ export default function OrdersPage() {
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
-    axios.get('/api/orders').then((res) => setOrders(res.data));
+    getOrders();
   }, []);
 
   function calculateOrderTotals(order) {
@@ -21,11 +21,18 @@ export default function OrdersPage() {
     );
   }
 
+  function getOrders() {
+    axios.get('/api/orders').then((res) => setOrders(res.data));
+  }
+
   async function deleteOrder(order) {
     await axios
-      .delete('/api/order?_id=' + order._id)
-      .then((res) => console.log('deleted:', res.data))
-      .finally(() => getCategories());
+      .delete('/api/orders?_id=' + order._id)
+      .then((res) => res.data)
+      .then((data) => {
+        getOrders();
+        console.log('deleted:', data);
+      });
   }
 
   return (
@@ -37,73 +44,103 @@ export default function OrdersPage() {
         <table className='table w-full mt-5'>
           <thead>
             <tr>
-              <th>ID</th>
+              <th>ID / Date</th>
               <th>Recipient</th>
-              <th>Date</th>
               <th>Products</th>
-              <th>Total</th>
-              <th>Payment</th>
             </tr>
           </thead>
           <tbody>
             {orders?.length > 0 &&
               orders.map((order) => (
-                <tr key={order._id} className=''>
-                  {/* id */}
+                <tr key={order._id} className='align-top'>
                   <td>
+                    {/* id */}
                     <ClampedId _id={order._id} />
+
+                    {/* date */}
+                    <span className='font-medium mt-5'>
+                      {new Date(order.createdAt).toLocaleString()}
+                    </span>
                   </td>
 
                   {/* recipient */}
-                  <td className='flex flex-col'>
-                    <span>{order.user_data.name}</span>
-                    <span>{order.user_data.email}</span>
-                    <span>{order.user_data.city}</span>
-                    <span>{order.user_data.postalCode}</span>
-                    <span>{order.user_data.streetAddress}</span>
-                    <span>{order.user_data.country}</span>
+                  <td>
+                    <div className='flex flex-col'>
+                      <span>{order.user_data.name}</span>
+                      <span>{order.user_data.email}</span>
+                      <span>{order.user_data.city}</span>
+                      <span>{order.user_data.postalCode}</span>
+                      <span>{order.user_data.streetAddress}</span>
+                      <span>{order.user_data.country}</span>
+                    </div>
                   </td>
-
-                  {/* date */}
-                  <td>{new Date(order.createdAt).toLocaleString()}</td>
 
                   {/* quantity items */}
-                  <td className='text-center'>
-                    <ul>
-                      {order.line_items.map((p) => (
-                        <li key={p._id}>
-                          {p.price_data.product_data.name} x {p.quantity}
-                        </li>
-                      ))}
-                    </ul>
-                  </td>
+                  <td>
+                    <div className='flex flex-col h-full justify-between gap-2'>
+                      <ul className='text-sm'>
+                        {order.line_items.map((p) => (
+                          <li
+                            key={p._id}
+                            className='flex justify-between mb-1 gap-1'
+                          >
+                            <span className='truncate'>
+                              {p.price_data.product_data.name}
+                            </span>
+                            <span className='bg-light rounded-md px-1 border whitespace-nowrap'>
+                              x {p.quantity}
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
 
-                  {/* total */}
-                  <td>{formatToReal(calculateOrderTotals(order))}</td>
+                      <div className='flex flex-col gap-2 mt-4'>
+                        <div className='flex justify-between'>
+                          {/* total */}
 
-                  {/* payment status */}
-                  <td>{order.paid ? 'paid' : 'not paid'}</td>
+                          <span className='text-left whitespace-nowrap font-bold'>
+                            TOTAL
+                          </span>
+                          <span className='text-left whitespace-nowrap font-bold'>
+                            {formatToReal(calculateOrderTotals(order))}
+                          </span>
+                        </div>
 
-                  {/* Buttons */}
-                  <td className='flex justify-end flex-wrap gap-1 !px-0 max-w-[120px]'>
-                    {/* edit button */}
-                    <button
-                      onClick={() => editCategory(order)}
-                      className='btn-primary'
-                    >
-                      <FontAwesomeIcon
-                        icon={faPenToSquare}
-                        className='size-3'
-                      />
-                    </button>
+                        {/* payment status */}
+                        <span
+                          className={`text-center text-white font-medium rounded-md ${
+                            order.paid ? 'bg-green-400' : 'bg-red-300'
+                          }`}
+                        >
+                          {order.paid ? 'paid' : 'not paid'}
+                        </span>
 
-                    {/* delete button */}
-                    <button
-                      className='btn-white'
-                      onClick={() => deleteOrder(order)}
-                    >
-                      <FontAwesomeIcon icon={faTrash} className='size-3' />
-                    </button>
+                        {/* buttons */}
+                        <div className='flex gap-1 mt-auto'>
+                          {/* edit button */}
+                          <button
+                            onClick={() => editCategory(order)}
+                            className='btn-primary !py-1 w-full'
+                          >
+                            <FontAwesomeIcon
+                              icon={faPenToSquare}
+                              className='size-4'
+                            />
+                          </button>
+
+                          {/* delete button */}
+                          <button
+                            className='btn-white !py-1 w-full'
+                            onClick={() => deleteOrder(order)}
+                          >
+                            <FontAwesomeIcon
+                              icon={faTrash}
+                              className='size-4'
+                            />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
                   </td>
                 </tr>
               ))}
