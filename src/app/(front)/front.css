@@ -2,10 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-._container {
-  @apply max-w-5xl mx-auto px-4;
-}
-
 .white-box {
   @apply bg-white rounded-md p-6 mt-5 text-gray-800;
 }
