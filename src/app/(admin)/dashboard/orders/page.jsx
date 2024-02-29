@@ -1,6 +1,6 @@
 'use client';
 
-import ClampedId from '@/app/(admin)/_components/ClampedId';
+import ClampedId from '@/app/(admin)/dashboard/_components/ClampedId';
 import { formatToReal } from '@/app/_libs/utils';
 import { faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -49,13 +49,13 @@ export default function OrdersPage() {
           <tbody>
             {orders?.length > 0 &&
               orders.map((order) => (
-                <tr key={order._id} className='align-top'>
+                <tr key={order._id} className='align-top text-sm'>
                   <td>
                     {/* id */}
                     <ClampedId _id={order._id} />
 
                     {/* date */}
-                    <span className='font-medium mt-5'>
+                    <span className='inline-block font-medium mt-3'>
                       {new Date(order.createdAt).toLocaleString()}
                     </span>
                   </td>

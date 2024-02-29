@@ -1,5 +1,5 @@
-import { mongooseConnect } from '@/app/(admin)/_libs/mongoose';
-import { Order } from '@/app/(admin)/_models/Order';
+import { mongooseConnect } from '@/app/_libs/mongoose';
+import { Order } from '@/app/_models/Order';
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 export async function POST(req) {

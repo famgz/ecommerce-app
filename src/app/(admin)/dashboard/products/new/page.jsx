@@ -1,6 +1,6 @@
 'use client';
 
-import ProductForm from '@/app/(admin)/_components/ProductForm';
+import ProductForm from '@/app/(admin)/dashboard/_components/ProductForm';
 
 export default function NewProductPage() {
   return (

@@ -1,6 +1,6 @@
-import { mongooseConnect } from '@/app/(admin)/_libs/mongoose';
-import { getId } from '@/app/(admin)/_libs/utils';
-import { Order } from '@/app/(admin)/_models/Order';
+import { mongooseConnect } from '@/app/_libs/mongoose';
+import { getId } from '@/app/_libs/utils';
+import { Order } from '@/app/_models/Order';
 import { isAdmin } from '@/app/api/auth/[...nextauth]/route';
 
 export async function GET(req) {

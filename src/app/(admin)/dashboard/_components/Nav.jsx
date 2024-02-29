@@ -46,7 +46,7 @@ export default function Nav() {
       <aside
         className={
           (showNav ? 'left-0 shadow-lg' : '-left-full') +
-          ' p-4 fixed md:static h-full w-[220px] bg-gray-200 duration-1000 z-20'
+          ' p-4 fixed md:static h-full w-[220px] md:w-[200px] bg-gray-200 duration-1000 z-20'
         }
       >
         <div className='flex gap-2 mb-4 p-1 relative'>
@@ -65,9 +65,9 @@ export default function Nav() {
         <nav className='grid gap-2'>
           {/* Dashboard */}
           <Link
-            href={'/dashboard'}
+            href={'/dashboard/home'}
             className={
-              pathname.startsWith('/dashboard') ? activeLink : inactiveLink
+              pathname.startsWith('/dashboard/home') ? activeLink : inactiveLink
             }
             onClick={() => setShowNav(false)}
           >
@@ -77,9 +77,11 @@ export default function Nav() {
 
           {/* Products */}
           <Link
-            href={'/products'}
+            href={'/dashboard/products'}
             className={
-              pathname.startsWith('/products') ? activeLink : inactiveLink
+              pathname.startsWith('/dashboard/products')
+                ? activeLink
+                : inactiveLink
             }
             onClick={() => setShowNav(false)}
           >
@@ -89,9 +91,11 @@ export default function Nav() {
 
           {/* Categories */}
           <Link
-            href={'/categories'}
+            href={'/dashboard/categories'}
             className={
-              pathname.startsWith('/categories') ? activeLink : inactiveLink
+              pathname.startsWith('/dashboard/categories')
+                ? activeLink
+                : inactiveLink
             }
             onClick={() => setShowNav(false)}
           >
@@ -101,9 +105,11 @@ export default function Nav() {
 
           {/* Orders */}
           <Link
-            href={'/orders'}
+            href={'/dashboard/orders'}
             className={
-              pathname.startsWith('/orders') ? activeLink : inactiveLink
+              pathname.startsWith('/dashboard/orders')
+                ? activeLink
+                : inactiveLink
             }
             onClick={() => setShowNav(false)}
           >
@@ -113,9 +119,11 @@ export default function Nav() {
 
           {/* Settings */}
           <Link
-            href={'/settings'}
+            href={'/dashboard/settings'}
             className={
-              pathname.startsWith('/settings') ? activeLink : inactiveLink
+              pathname.startsWith('/dashboard/settings')
+                ? activeLink
+                : inactiveLink
             }
             onClick={() => setShowNav(false)}
           >

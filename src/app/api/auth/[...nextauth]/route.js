@@ -1,7 +1,7 @@
 import NextAuth, { getServerSession } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import { MongoDBAdapter } from '@auth/mongodb-adapter';
-import clientPromise from '@/app/(admin)/_libs/mongodb';
+import clientPromise from '@/app/_libs/mongodb';
 
 const adminEmails = JSON.parse(process.env.ADMIN_EMAILS);
 

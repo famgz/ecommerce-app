@@ -2,8 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
-h1 {
-  @apply text-primary mb-2 font-bold text-xl;
+._container {
+  h1 {
+    @apply text-primary text-center mb-2 font-bold text-xl;
+  }
 }
 
 .label {

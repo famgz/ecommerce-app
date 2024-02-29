@@ -26,7 +26,7 @@ export default async function Header() {
           <HeaderCartLink />
           {user ? <LogOutButton /> : <LoginWithGoogle />}
           {user && (await isAdmin()) && (
-            <Link href='/dashboard'>Dashboard</Link>
+            <Link href='/dashboard/home'>Dashboard</Link>
           )}
         </nav>
       </div>

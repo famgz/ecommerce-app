@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import DeleteButton from '@/app/(admin)/_components/DeleteButton';
+import DeleteButton from '@/app/(admin)/dashboard/_components/DeleteButton';
 
 export default function ProductsPage() {
   const [products, setProducts] = useState([]);
@@ -64,7 +64,10 @@ export default function ProductsPage() {
 
             <div className='flex gap-1 justify-end'>
               {/* edit button */}
-              <Link href={'/products/edit/' + p._id} className='btn-primary'>
+              <Link
+                href={'/dashboard/products/edit/' + p._id}
+                className='btn-primary'
+              >
                 <FontAwesomeIcon icon={faPenToSquare} className='size-3' />
               </Link>
 

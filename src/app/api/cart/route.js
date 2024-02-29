@@ -1,5 +1,5 @@
-import { mongooseConnect } from '@/app/(admin)/_libs/mongoose';
-import { Product } from '@/app/(admin)/_models/Product';
+import { mongooseConnect } from '@/app/_libs/mongoose';
+import { Product } from '@/app/_models/Product';
 
 export async function POST(req) {
   await mongooseConnect();

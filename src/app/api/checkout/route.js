@@ -1,6 +1,6 @@
-import { mongooseConnect } from '@/app/(admin)/_libs/mongoose';
-import { Order } from '@/app/(admin)/_models/Order';
-import { Product } from '@/app/(admin)/_models/Product';
+import { mongooseConnect } from '@/app/_libs/mongoose';
+import { Order } from '@/app/_models/Order';
+import { Product } from '@/app/_models/Product';
 import { convertToPlainObject, parseCheckoutForm } from '@/app/_libs/utils';
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
