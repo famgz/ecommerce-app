@@ -4,10 +4,6 @@
 
 ._container {
   @apply max-w-5xl mx-auto px-4;
-
-  /* h1 {
-    @apply text-primary text-center text-2xl font-bold;
-  } */
 }
 
 .line-bottom {

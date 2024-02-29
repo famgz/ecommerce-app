@@ -18,7 +18,7 @@ export default async function Header() {
           <FontAwesomeIcon icon={faBagShopping} className='size-5' />
           Ecommerce
         </Link>
-        <nav className='flex gap-3'>
+        <nav className='flex gap-3 text-zinc-400'>
           <Link href='/'>Home</Link>
           <Link href='/products'>All products</Link>
           <Link href='/categories'>Categories</Link>
@@ -26,7 +26,7 @@ export default async function Header() {
           <HeaderCartLink />
           {user ? <LogOutButton /> : <LoginWithGoogle />}
           {user && (await isAdmin()) && (
-            <Link href='/dashboard/home'>Dashboard</Link>
+            <Link href='/dashboard'>Dashboard</Link>
           )}
         </nav>
       </div>

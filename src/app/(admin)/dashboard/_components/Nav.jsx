@@ -65,9 +65,9 @@ export default function Nav() {
         <nav className='grid gap-2'>
           {/* Dashboard */}
           <Link
-            href={'/dashboard/home'}
+            href={'/dashboard'}
             className={
-              pathname.startsWith('/dashboard/home') ? activeLink : inactiveLink
+              pathname.startsWith('/dashboard') ? activeLink : inactiveLink
             }
             onClick={() => setShowNav(false)}
           >
