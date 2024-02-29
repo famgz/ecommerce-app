@@ -66,9 +66,7 @@ export default function Nav() {
           {/* Dashboard */}
           <Link
             href={'/dashboard'}
-            className={
-              pathname.startsWith('/dashboard') ? activeLink : inactiveLink
-            }
+            className={pathname === '/dashboard' ? activeLink : inactiveLink}
             onClick={() => setShowNav(false)}
           >
             <FontAwesomeIcon icon={faHouse} className='size-5' />
