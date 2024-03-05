@@ -1,6 +1,7 @@
 'use client';
 
 import ClampedId from '@/app/(admin)/dashboard/_components/ClampedId';
+import DeleteButton from '@/app/(admin)/dashboard/_components/DeleteButton';
 import { formatToReal } from '@/app/_libs/utils';
 import { faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -126,15 +127,10 @@ export default function OrdersPage() {
                           </button>
 
                           {/* delete button */}
-                          <button
-                            className='btn-white !py-1 w-full'
-                            onClick={() => deleteOrder(order)}
-                          >
-                            <FontAwesomeIcon
-                              icon={faTrash}
-                              className='size-4'
-                            />
-                          </button>
+                          <DeleteButton
+                            onDelete={() => deleteOrder(order)}
+                            className='w-full'
+                          />
                         </div>
                       </div>
                     </div>

@@ -2,14 +2,14 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
 
-export default function DeleteButton({ label, onDelete }) {
+export default function DeleteButton({ label, onDelete, className }) {
   const [showConfirm, setShowConfirm] = useState(false);
 
   return (
     <>
       {/* show button */}
       <button
-        className='btn-white'
+        className={'btn-white ' + className}
         type='button'
         onClick={() => setShowConfirm(true)}
       >
@@ -20,7 +20,7 @@ export default function DeleteButton({ label, onDelete }) {
       {/* delete confirmation modal */}
       {showConfirm && (
         <div className='fixed bg-black/80 inset-0 flex items-center h-full justify-center'>
-          <div className='flex flex-col gap-4 items-center bg-white p-4 rounded-lg'>
+          <div className='flex flex-col gap-4 items-center bg-white p-6 rounded-lg'>
             <div className=''>Are you sure you want to delete?</div>
             <div className='flex gap-2 w-full mt-4'>
               <button
