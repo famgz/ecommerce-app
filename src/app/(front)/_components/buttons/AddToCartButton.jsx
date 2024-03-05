@@ -5,7 +5,11 @@ import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useContext } from 'react';
 
-export default function AddToCartButton({ product, showText = true }) {
+export default function AddToCartButton({
+  product,
+  showText = true,
+  className = '',
+}) {
   const { cartProductsIds, setCartProductsIds } = useContext(CartContext);
 
   function handleAddToCart() {
@@ -13,7 +17,7 @@ export default function AddToCartButton({ product, showText = true }) {
   }
 
   return (
-    <button className='btn-primary' onClick={handleAddToCart}>
+    <button className={'btn-primary ' + className} onClick={handleAddToCart}>
       <FontAwesomeIcon icon={faCartShopping} className='size-4' />
       {showText && <span>Add to Cart</span>}
     </button>
