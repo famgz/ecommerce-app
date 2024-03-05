@@ -220,7 +220,10 @@ export default function CartPage() {
                   />
                 </label>
               </div>
-              <button type='submit' className='btn-primary text-xs w-full mt-6'>
+              <button
+                type='submit'
+                className='btn-primary font-medium w-full mt-6'
+              >
                 Continue to payment
               </button>
             </form>

@@ -5,14 +5,14 @@ import Link from 'next/link';
 
 export default function ProductBox({ product }) {
   const { _id, title, description, price, images } = product;
-  const url = '/product/' + _id;
+  const url = '/products/' + _id;
 
   return (
     <div className='min-w-0'>
       <Link
         href={url}
         title={description}
-        className='block gap-2 bg-white p-5 rounded-md shadow-md'
+        className='block gap-2 bg-white p-5 rounded-md shadow-md hover:shadow-lg'
       >
         <div className='relative w-full h-[150px]'>
           <Image src={images?.[0]} alt='' fill className='object-contain' />

@@ -12,13 +12,13 @@ export default async function Header() {
   const user = session?.user;
 
   return (
-    <header className=' bg-zinc-800 text-white'>
+    <header className='bg-zinc-800 text-white'>
       <div className='_container flex justify-between py-4 max-w-4xl'>
         <Link href='/' className='flex gap-2'>
           <FontAwesomeIcon icon={faBagShopping} className='size-5' />
           Ecommerce
         </Link>
-        <nav className='flex gap-3 text-zinc-400'>
+        <nav className='hidden md:flex gap-3 text-zinc-400 font-medium'>
           <Link href='/'>Home</Link>
           <Link href='/products'>All products</Link>
           <Link href='/categories'>Categories</Link>

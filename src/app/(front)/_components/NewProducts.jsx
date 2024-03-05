@@ -5,7 +5,7 @@ export default function NewProducts({ products }) {
     <div className='mt-8'>
       <div className='_container'>
         <h2 className='text-4xl font-bold'>New Arrivals</h2>
-        <ProductsGrid newProducts={products} />
+        <ProductsGrid products={products} />
       </div>
     </div>
   );

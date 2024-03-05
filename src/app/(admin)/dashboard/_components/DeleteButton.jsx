@@ -9,7 +9,7 @@ export default function DeleteButton({ label, onDelete }) {
     <>
       {/* show button */}
       <button
-        className='btn-white p-2'
+        className='btn-white'
         type='button'
         onClick={() => setShowConfirm(true)}
       >
