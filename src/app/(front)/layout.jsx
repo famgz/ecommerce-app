@@ -1,4 +1,5 @@
 import { CartContextProvider } from '@/app/(front)/_components/CartContext';
+import Footer from '@/app/(front)/_components/Footer';
 import Header from '@/app/(front)/_components/Header';
 import '@/app/(front)/front.css';
 import '@/app/globals.css';
@@ -22,6 +23,7 @@ export default async function RootLayout({ children }) {
           <CartContextProvider>
             <Header />
             {children}
+            <Footer />
           </CartContextProvider>
         </div>
       </body>
